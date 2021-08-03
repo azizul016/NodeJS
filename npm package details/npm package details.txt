@@ -1,0 +1,52 @@
+npm versions: major versions, minor versions, patch(5.2.3)
+major version(5)(if updated major version full version is changed);
+minor version(2)(if updated minor version only minor pary changed such as any feathers added);
+patch(3) (if have any bug in npm package then it updated)
+
+npm version : "express": "^4.17.1", for this example "^" means only minor and patch version updated if you update by command line;
+
+npm version : "express": "~4.17.1", for this example  "~" means only patch version updated if you update by command line; minor version cannot be updated;
+
+
+
+
+//see npm package list that is installed;
+npm list;
+
+//seeing only installed list;
+npm list --depth=0;
+
+// seeing package details with dependence;
+npm view express(package name) 
+
+// seeing single npm package dependencies details;
+npm view express(package name) dependencies; 
+
+//seeing single npm package versions 
+npm view express versions;
+
+//install old versions;
+npm install express(package name)@oldVersions;
+
+//seeing outdated package that can be updated;
+npm outdated; 
+
+you can not change major version. If you want to change major version then use below this comment
+//for updateing npm package from any old version;
+npm install npm-check-updates; 
+
+//for seeing update things;
+npm-check-updates or (ncu) 
+
+And finally use "ncu -u" then "npm i" for update to current version;
+
+//package uninstall
+npm uninstall (package name) or npm un (package name);
+
+//dev -dipendence
+//only helped in developing section not helped in production section
+npm (package name) --dev or -D
+//for nodemon: 
+"dev":"nodemon index";
+for running this commed(only start and test comand for running using 'npm start or test',)
+npm run dev
