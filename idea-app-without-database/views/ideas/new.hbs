@@ -1,0 +1,32 @@
+<form action="/ideas" method="POST">
+  <div class="mb-3">
+    <label for="title" class="form-label">Title</label>
+    <input type="text" class="form-control" name="title" id="title" />
+  </div>
+  <div class="mb-3 description">
+    <label for="descriotion" class="form-label">Description</label>
+    <textarea
+      name="description"
+      id="description"
+      rows="5"
+      class="form-control"
+    ></textarea>
+  </div>
+  <div class="mb-3">
+    <label for="status">Status</label>
+    <select for="status" class="form-select" name="status" id="status">
+      <option value="public">public</option>
+      <option value="private">private</option>
+    </select>
+  </div>
+  <div class="mb-3 form-check">
+    <input
+      type="checkbox"
+      name="allowComments"
+      class="form-check-input"
+      id="allowComments"
+    />
+    <label class="form-check-label" for="allowComments">Check me out</label>
+  </div>
+  <button type="submit" class="btn btn-primary">Submit</button>
+</form>

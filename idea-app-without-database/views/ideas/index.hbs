@@ -1,0 +1,9 @@
+{{#each ideas}}
+  <div class="card my-3">
+    <div class="card-body">
+      <h5 class="card-title">{{title}}</h5>
+      <div class="card-text">{{{trancateContent description 30}}}</div>
+      <a href="/ideas/{{id}}" class="btn btn-primary">Read More</a>
+    </div>
+  </div>
+{{/each}}
