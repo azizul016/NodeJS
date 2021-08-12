@@ -71,7 +71,7 @@ app.get("/ideas/new", (req, res) => {
 
 //add idea;
 app.post("/ideas", (req, res) => {
-  console.log(req.body, "idea");
+  // console.log(req.body, "idea");
   const allowComments = req.body.allowComments ? true : false;
   const idea = {
     ...req.body,
