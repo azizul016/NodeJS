@@ -1,0 +1,17 @@
+//show all database;
+show dbs;
+
+//view currently woking database
+db
+
+//select database
+use dbName
+
+//create collection
+db.createCollection("collectionName")
+
+//show all collection;
+show collections
+
+//dropping database
+db.dropDatabase()

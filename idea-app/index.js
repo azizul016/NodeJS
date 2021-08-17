@@ -4,6 +4,7 @@ const _ = require("lodash");
 const methodOverride = require("method-override");
 const morgan = require("morgan");
 const path = require("path");
+const MongoStore = require("connect-mongo");
 
 const { compareValues, trancateContent } = require("./helpers/hbs");
 
