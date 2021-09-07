@@ -1,9 +1,9 @@
 const { MongoClient, ObjectID } = require("mongodb");
-// const id = new ObjectID();
+const id = new ObjectID();
 // console.dir(id);
 // console.log(id.id, id.id.length);
 // console.log(id.toString(), id.toString().length);
-// console.log(id.getTimestamp())
+// console.log(id.getTimestamp());
 
 const uri = "mongodb://localhost:27017";
 const dbName = "idea-app";
@@ -29,39 +29,39 @@ async function dbOps() {
     //   description: "this is web developer",
     //   like: 31,
     // });
-    const result = await ideaCollection.insertMany([
-      {
-        title: "web developer1",
-        description: "this is web developer description 1",
-        like: 30,
-      },
-      {
-        title: "web developer2",
-        description: "this is web developer description 2",
-        like: 31,
-      },
-      {
-        title: "web developer3",
-        description: "this is web developer description 3",
-        like: 44,
-      },
-      {
-        title: "web developer4",
-        description: "this is web developer description 4",
-        like: 41,
-      },
-      {
-        title: "web developer5",
-        description: "this is web developer description 5",
-        like: 60,
-      },
-      {
-        title: "web developer6",
-        description: "this is web developer description 6",
-        like: 81,
-      },
-    ]);
-    console.log(result.ops);
+    // const result = await ideaCollection.insertMany([
+    //   {
+    //     title: "web developer1",
+    //     description: "this is web developer description 1",
+    //     like: 30,
+    //   },
+    //   {
+    //     title: "web developer2",
+    //     description: "this is web developer description 2",
+    //     like: 31,
+    //   },
+    //   {
+    //     title: "web developer3",
+    //     description: "this is web developer description 3",
+    //     like: 44,
+    //   },
+    //   {
+    //     title: "web developer4",
+    //     description: "this is web developer description 4",
+    //     like: 41,
+    //   },
+    //   {
+    //     title: "web developer5",
+    //     description: "this is web developer description 5",
+    //     like: 60,
+    //   },
+    //   {
+    //     title: "web developer6",
+    //     description: "this is web developer description 6",
+    //     like: 81,
+    //   },
+    // ]);
+    // console.log(result.ops);
 
     //get single data from database;
     // const result = await ideaCollection.find({
@@ -102,6 +102,14 @@ async function dbOps() {
     //       // $gte: 30
     //       // $lt: 30
     //       // $lte: 30
+    // $and: [
+    //   {
+    //     title: "web developer",
+    //   },
+    //   {
+    //     description: "this is web developer1",
+    //   },
+    // ];
     //       $or: [
     //         {
     //           title: "web developer",
@@ -118,21 +126,23 @@ async function dbOps() {
     //update idea;
 
     //link for update operator: https://docs.mongodb.com/manual/reference/operator/update/
-    //     const result = await ideaCollection.updateOne(
-    //       {
-    //         title: "web developer1",
-    //       },
-    //       {
-    //         $set: {
-    //           description: "this is updated filed",
-    //         },
-    //       },
-    //       {
-    //         upsert: true,
-    //       }
-    //     );
-    //   console.log(result);
+    // const result = await ideaCollection.updateOne(
+    //   {
+    //     title: "web developer1",
+    //   },
+    //   {
+    //     $set: {
+    //       description: "this is updated filed",
+    //     },
+    //   },
+    //   {
+    //     // if any document not found for update then it create updated value as a document
+    //     upsert: true,
+    //   }
+    // );
+    // console.log(result);
 
+    //if you want updated value
     // const result = await ideaCollection.findOneAndUpdate(
     //   {
     //     title: "web developer1",
@@ -141,8 +151,10 @@ async function dbOps() {
     //     $set: {
     //       description: "this is updated1 filed",
     //     },
-    //   },{
-    //       returnOriginal: false
+    //   },
+    //   {
+    //     //if need updated value then use it
+    //     // returnOriginal: false,
     //   }
     // );
     // console.log(result);
@@ -151,6 +163,7 @@ async function dbOps() {
     // const result = await ideaCollection.deleteOne({title: 'web developer1'})
     // const result = await ideaCollection.findOneAndDelete({title: 'web developer145'})
     // console.log(result);
+
     //close connection;
     client.close();
   } catch (error) {

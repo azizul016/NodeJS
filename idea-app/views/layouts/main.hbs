@@ -21,7 +21,7 @@
   <body>
     {{>_nav}}
     <div class="container">
-
+  	{{>_errMsg}}
     {{{body}}}
     </div>
   </body>
@@ -33,12 +33,12 @@
         .catch( error => {
             console.error( error );
         } );
-    ClassicEditor
+    {{!-- ClassicEditor
         .create( document.querySelector( '#title' ),{
            toolbar: [ 'heading', '|', 'bold', 'italic', 'link', 'bulletedList', 'numberedList', 'blockQuote' ],
         } )
         .catch( error => {
             console.error( error );
-        } );
+        } ); --}}
 </script>
 </html>
