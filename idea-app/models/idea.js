@@ -19,7 +19,7 @@ const ideaSchema = new Schema({
   },
   description: {
     type: String,
-    required: [true, "Description is Required"],
+    // required: [true, "Description is Required"],
     maxLength: [10000, "Description is not greater then 10000 words"],
   },
   allowComments: {
@@ -33,6 +33,21 @@ const ideaSchema = new Schema({
     // required: true,
     default: "public",
   },
+  //donot needed custom validator
+  tags: [
+    { type: String, required: [true, "Idea Must Have One Tags"], trim: true },
+  ],
+  // tags: {
+  //   type: [String],
+  //   required: true,
+  //   trim: true,
+  //   validator: {
+  //     validator: (v) => {
+  //       return v[0].length > 0;
+  //     },
+  //     message: "Idea Must Have One Tags",
+  //   },
+  // },
 });
 
 const Idea = mongoose.model("Idea", ideaSchema);

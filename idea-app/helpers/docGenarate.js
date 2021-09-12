@@ -3,7 +3,8 @@ module.exports = function generateIdeaDoc(
   title,
   description,
   allowComments,
-  status
+  status,
+  tags
 ) {
   return {
     id,
@@ -11,5 +12,6 @@ module.exports = function generateIdeaDoc(
     description,
     allowComments,
     status,
+    tags,
   };
 };

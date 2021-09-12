@@ -19,6 +19,16 @@
       <option value="private" {{compareValues "private" idea.status}}>private</option>
     </select>
   </div>
+
+
+  {{!-- for tags --}}
+  <div class="my-3">
+    <label for="tags" class="form-label">Tags</label>
+    <input type="text" class="form-control" id="title" name= "tags" data-role="tagsinput" value="{{idea.tags}}" />
+  </div>
+{{!-- tag finish --}}
+
+
   <div class="mb-3 form-check">
     <input
       type="checkbox"
@@ -31,5 +41,6 @@
     />
     <label class="form-check-label" for="allowComments">Check me out</label>
   </div>
-  <button type="submit" class="btn btn-primary">Submit</button>
+    <button disabled type="submit" style="display:none">Update Idea</button>
+  <button type="submit" class="btn btn-primary">Update Idea</button>
 </form>

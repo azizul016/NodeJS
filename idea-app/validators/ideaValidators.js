@@ -20,6 +20,7 @@ const ideaValidators = () => {
       .isIn(["public", "private"])
       .withMessage("status must be public or private")
       .trim(),
+    check("tags", "Idea Must Have One Tags").trim().isLength({ min: 1 }),
   ];
 };
 
