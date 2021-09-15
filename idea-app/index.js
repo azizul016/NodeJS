@@ -13,6 +13,7 @@ const connectDB = require("./playground/DBConnection.js");
 //route import;
 const ideaRoute = require("./route/ideaRoute");
 const pageRoute = require("./route/pageRoute");
+const authRoute = require("./route/authRoute");
 
 // error middleware import
 
@@ -37,6 +38,7 @@ app.use(express.static(path.join(__dirname, "public")));
 app.use(morgan("dev"));
 
 //route declear ;
+app.use("/auth", authRoute);
 app.use("/ideas", ideaRoute);
 app.use(pageRoute);
 
