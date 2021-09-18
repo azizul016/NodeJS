@@ -1,10 +1,17 @@
 const mongoose = require("mongoose");
 
-module.exports = async function connectDB() {
+const url = `mongodb://localhost:27017/ideas-app`;
+
+const connectDB = async () => {
   try {
-    await mongoose.connect("mongodb://localhost:27017/ideas-app");
+    await mongoose.connect(url);
     console.log("Datebase Is Connected Successfully");
   } catch (error) {
     console.log(error);
   }
+};
+
+module.exports = {
+  url,
+  connectDB,
 };

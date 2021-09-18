@@ -14,31 +14,60 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav ms-auto">
-        <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="/ideas">Public
-            Idea</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="/ideas/new">Add
-            Idea</a>
-        </li>
-        <li class="nav-item">
-          <a
-            class="nav-link active"
-            aria-current="page"
-            href="/auth/register"
-          >Register</a>
-        </li>
-        <li class="nav-item">
-          <a
-            class="nav-link active"
-            aria-current="page"
-            href="/auth/login"
-          >Login</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="/about">About</a>
-        </li>
+
+        {{#if user}}
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="/ideas">Public
+              Idea</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="/ideas/new">Add
+              Idea</a>
+          </li>
+          <li class="nav-item">
+            <a
+              class="nav-link active"
+              aria-current="page"
+              href="/auth/logout"
+            >Logout</a>
+          </li>
+
+          <li class="nav-item">
+            <a
+              class="nav-link active"
+              aria-current="page"
+              href="/about"
+            >About</a>
+          </li>
+
+        {{else}}
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="/ideas">Public
+              Idea</a>
+          </li>
+          <li class="nav-item">
+            <a
+              class="nav-link active"
+              aria-current="page"
+              href="/auth/register"
+            >Register</a>
+          </li>
+          <li class="nav-item">
+            <a
+              class="nav-link active"
+              aria-current="page"
+              href="/auth/login"
+            >Login</a>
+          </li>
+
+          <li class="nav-item">
+            <a
+              class="nav-link active"
+              aria-current="page"
+              href="/about"
+            >About</a>
+          </li>
+        {{/if}}
 
       </ul>
     </div>

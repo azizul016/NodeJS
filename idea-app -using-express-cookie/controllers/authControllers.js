@@ -35,18 +35,11 @@ const postLoginController = async (req, res) => {
     const isMatch = await bcrypt.compare(req.body.password, user.password);
     if (isMatch) {
       console.log("Login Successfully");
-
-      //for cookies
-      // res.cookie("isLoggedIn", "true", {
-      //   maxAge: 8 * 60 * 60 * 1000, // cookie will be removed after 8 hours,
-      //   httpOnly: true,
-      //   sameSite: "lax",
-      // });
-
-      //for session;
-      req.session.isLoggedIn = "true";
-      req.session.user = user;
-
+      res.cookie("isLoggedIn", "true", {
+        maxAge: 8 * 60 * 60 * 1000, // cookie will be removed after 8 hours,
+        httpOnly: true,
+        sameSite: "lax",
+      });
       res.redirect("/ideas");
     } else {
       console.log("Envalid Email and Password");
@@ -60,12 +53,7 @@ const postLoginController = async (req, res) => {
 };
 
 const getLogoutController = (req, res, next) => {
-  //for cookies
-  // res.clearCookie("isLoggedIn");
-
-  //for session;
-  req.session.destroy();
-
+  res.clearCookie("isLoggedIn");
   console.log("Logout Successfully");
   res.redirect("/auth/login");
 };
