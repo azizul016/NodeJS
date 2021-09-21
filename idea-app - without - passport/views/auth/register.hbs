@@ -1,0 +1,72 @@
+<form action="/auth/register" method="POST">
+
+  <div class="row">
+    <div class="col-md-8 offset-md-2">
+      <h3 class="text-muted my-4">Register</h3>
+      <div class="row">
+        <div class="col">
+          <label for="firstName">First Name</label>
+          <input
+            type="text"
+            class="form-control"
+            placeholder="First name"
+            aria-label="First name"
+            name="firstName"
+            id="firstName"
+            {{#if userInput.firstName}} value="{{userInput.firstName}}" {{/if}}
+          />
+        </div>
+        <div class="col">
+          <label for="lastName">Last Name</label>
+          <input
+            type="text"
+            class="form-control"
+            placeholder="Last name"
+            aria-label="Last name"
+            name="lastName"
+            id="lastName"
+             {{#if userInput.lastName}}  value="{{userInput.lastName}}" {{/if}}
+          />
+        </div>
+      </div>
+      <div class="mb-3">
+        <label for="email" class="form-label">Email</label>
+        <input
+          type="email"
+          class="form-control"
+          id="email"
+          placeholder="Email"
+          name="email"
+           {{#if userInput.email}} value="{{userInput.email}}" {{/if}}
+        />
+      </div>
+      <div class="row">
+        <div class="mb-3 col">
+          <label for="password" class="form-label">Password</label>
+          <input
+            type="password"
+            class="form-control"
+            id="password"
+            placeholder="Enter Password"
+            name="password"
+             {{#if userInput.password}} value="{{userInput.password}}" {{/if}}
+          />
+        </div>
+        <div class="mb-3 col">
+          <label for="confirmPassword" class="form-label">Confirm Password</label>
+          <input
+            type="password"
+            class="form-control"
+            id="confirmPassword"
+            placeholder="Enter Confirm Password"
+            name="confirmPassword"
+             {{#if userInput.confirmPassword}} value="{{userInput.confirmPassword}}" {{/if}}
+          />
+        </div>
+
+      </div>
+      <input type="submit" value="Register" class="btn btn-primary btn-sm" />
+    </div>
+  </div>
+
+</form>

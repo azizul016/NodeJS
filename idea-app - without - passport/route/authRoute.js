@@ -1,6 +1,5 @@
 const express = require("express");
 const router = express.Router();
-const passport = require("passport");
 
 const {
   getRegisterController,
@@ -8,7 +7,6 @@ const {
   getLoginController,
   postLoginController,
   getLogoutController,
-  getGoogleController,
 } = require("../controllers/authControllers");
 
 const {
@@ -33,34 +31,6 @@ router.post(
   postRegisterController
 );
 
-//post login controller
-// router.post("/login", loginValidators(), loginValidate, postLoginController);
-
-//using passport for login controller
-router.post(
-  "/login",
-  loginValidators(),
-  loginValidate,
-  passport.authenticate("local", {
-    failureRedirect: "/auth/login",
-    failureFlash: true,
-  }),
-  postLoginController
-);
-
-//for google route;
-router.get(
-  "/google",
-  passport.authenticate("google", { scope: ["profile", "email"] })
-);
-
-router.get(
-  "/google/callback",
-  passport.authenticate("google", {
-    failureRedirect: "/auth/login",
-    failureFlash: true,
-  }),
-  getGoogleController
-);
+router.post("/login", loginValidators(), loginValidate, postLoginController);
 
 module.exports = router;

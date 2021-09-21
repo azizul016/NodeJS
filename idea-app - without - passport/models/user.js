@@ -3,9 +3,6 @@ const { Schema } = mongoose;
 const bcrypt = require("bcryptjs");
 
 const userSchema = new Schema({
-  googleId: {
-    type: String,
-  },
   firstName: {
     type: String,
     required: true,

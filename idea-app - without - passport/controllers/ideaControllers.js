@@ -40,7 +40,6 @@ const postIdeaController = async (req, res) => {
   });
   await idea.save();
   //redirect idea
-  req.flash("success_msg", "Idea Added Successfully");
   return res.redirect("/ideas");
 };
 
@@ -63,7 +62,6 @@ const editIdeaController = async (req, res, next) => {
       idea.status,
       idea.tags
     );
-
     return res.render("ideas/edit", {
       title: "Edit Idea",
       idea: singleIdea,
@@ -92,7 +90,6 @@ const updateIdeaController = async (req, res, next) => {
 
   const updatedIdea = await Idea.findByIdAndUpdate(id, pickedValue);
   if (updatedIdea) {
-    req.flash("success_msg", "Idea Updated Successfully");
     //redirect;
     return res.redirect(`/ideas/${id}`);
   } else {
@@ -108,7 +105,6 @@ const deleteIdeaController = async (req, res, next) => {
   }
   const idea = await Idea.findByIdAndDelete(id);
   if (idea) {
-    req.flash("success_msg", "Idea Delete Successfully");
     //redirect route
     return res.redirect("/ideas");
   } else {

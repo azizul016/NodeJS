@@ -1,0 +1,28 @@
+<div class="card mt-3">
+  <div class="card-body">
+    <h5 class="card-title">{{idea.title}}</h5>
+    <div class="card-text">{{{idea.description}}}</div>
+
+    {{#if user}}
+      <div class="d-flex align-item-center">
+        <div>
+          <a
+            href="/ideas/{{idea.id}}/edit"
+            class="btn btn-primary btn-sm"
+          >Edit</a>
+        </div>
+        <div>
+          <form
+            action="/ideas/{{idea.id}}?_method=DELETE"
+            method="POST"
+            class="mx-2"
+          >
+            <button class="btn btn-danger btn-sm">Delete</button>
+          </form>
+        </div>
+      </div>
+    {{else}}
+    {{/if}}
+
+  </div>
+</div>

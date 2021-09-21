@@ -1,6 +1,4 @@
 const express = require("express");
-//.env file config
-require("dotenv").config({ path: "./config/keys.env" });
 require("express-async-errors");
 const exphbs = require("express-handlebars");
 const methodOverride = require("method-override");
@@ -11,15 +9,6 @@ const path = require("path");
 const session = require("express-session");
 //session connect mongoDB
 const MongoStore = require("connect-mongo");
-//passport
-const passport = require("passport");
-//connect flash for show message;
-const flash = require("connect-flash");
-
-//configuration passport
-//localStrategy decliear
-require("./passportAuth/passport").localStrategy(passport);
-require("./passportAuth/passport").googleStrategy(passport);
 
 const { compareValues, trancateContent } = require("./helpers/hbs");
 
@@ -55,7 +44,7 @@ app.set("view engine", ".hbs");
 //for session
 app.use(
   session({
-    secret: process.env.SECRET_SESSION,
+    secret: "This is secret key",
     resave: false,
     store: MongoStore.create({
       // url: url,
@@ -71,14 +60,6 @@ app.use(
   })
 );
 
-//passport middlewre;
-app.use(passport.initialize());
-app.use(passport.session());
-
-//connect flash middleware for showing message
-app.use(flash());
-
-//request method
 app.use(methodOverride("_method"));
 app.use(express.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, "public")));
@@ -110,13 +91,7 @@ app.use(morgan("dev"));
 // });
 
 app.use((req, res, next) => {
-  // res.locals.user = req.session.user || null;
-  res.locals.user = req.user || null;
-  res.locals.success_msg = req.flash("success_msg");
-  res.locals.error_msg = req.flash("error_msg");
-  res.locals.error = req.flash("error");
-
-  // console.log(req.user, "req");
+  res.locals.user = req.session.user || null;
   next();
 });
 
