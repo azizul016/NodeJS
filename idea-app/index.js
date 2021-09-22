@@ -28,6 +28,7 @@ const { connectDB, url } = require("./playground/DBConnection.js");
 
 //route import;
 const ideaRoute = require("./route/ideaRoute");
+const commentsRoute = require("./route/commentsRoute");
 const pageRoute = require("./route/pageRoute");
 const authRoute = require("./route/authRoute");
 
@@ -123,6 +124,7 @@ app.use((req, res, next) => {
 //route declear ;
 app.use("/auth", authRoute);
 app.use("/ideas", ideaRoute);
+app.use("/ideas/:id/comments", commentsRoute);
 app.use(pageRoute);
 
 //error middleware handling

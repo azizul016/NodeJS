@@ -1,6 +1,7 @@
 // import mongoose from "mongoose";
 const mongoose = require("mongoose");
 const { Schema } = mongoose;
+const { commentSchema } = require("./comment");
 
 const ideaSchema = new Schema({
   title: {
@@ -37,6 +38,9 @@ const ideaSchema = new Schema({
   tags: [
     { type: String, required: [true, "Idea Must Have One Tags"], trim: true },
   ],
+
+  //or
+
   // tags: {
   //   type: [String],
   //   required: true,
@@ -48,6 +52,31 @@ const ideaSchema = new Schema({
   //     message: "Idea Must Have One Tags",
   //   },
   // },
+
+  //sample system
+  // comments: [
+  //   {
+  //     title: {
+  //       type: String,
+  //       require: true,
+  //       maxLength: [100, "Title is not greater then 100 words"],
+  //     },
+  //     text: {
+  //       type: String,
+  //       maxLength: [1000, "Text is not greater then 1000"],
+  //     },
+  //   },
+  // ],
+
+  //subdocument or embedding system
+  // comments: {
+  //   type: commentSchema,
+  //   required: true,
+  // },
+
+  //or
+
+  comments: [commentSchema],
 });
 
 const Idea = mongoose.model("Idea", ideaSchema);

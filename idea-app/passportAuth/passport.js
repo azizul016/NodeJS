@@ -3,8 +3,9 @@ const GoogleStrategy = require("passport-google-oauth20").Strategy;
 const bcrypt = require("bcryptjs");
 const User = require("../models/user");
 
-// const { GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET } = require("../playground/key");
-
+const { GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET } = require("../playground/key");
+// console.log(process.env.GOOGLE_CLIENT_SECRET, "GOOGLE_CLIENT_SECRET");
+// console.log(process.env.GOOGLE_CLIENT_ID, "GOOGLE_CLIENT_ID");
 const localStrategy = (passport) => {
   passport.use(
     new LocalStrategy(
@@ -51,10 +52,10 @@ const googleStrategy = (passport) => {
   passport.use(
     new GoogleStrategy(
       {
-        clientID: process.env.GOOGLE_CLIENT_ID,
-        // clientID: GOOGLE_CLIENT_ID,
-        clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-        // clientSecret: GOOGLE_CLIENT_SECRET,
+        // clientID: process.env.GOOGLE_CLIENT_ID,
+        clientID: GOOGLE_CLIENT_ID,
+        // clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+        clientSecret: GOOGLE_CLIENT_SECRET,
         callbackURL: "/auth/google/callback",
       },
       async function (accessToken, refreshToken, profile, next) {
@@ -73,7 +74,8 @@ const googleStrategy = (passport) => {
           } else {
             const creatingNewUserByGoogle = new User(profileToSave);
             await creatingNewUserByGoogle.save({ validateBeforeSave: false });
-            return next(null, user);
+            console.log(creatingNewUserByGoogle, "creating google");
+            return next(null, creatingNewUserByGoogle);
           }
         } catch (error) {
           next(error);

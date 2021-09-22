@@ -85,6 +85,7 @@ const getGoogleController = (req, res) => {
   // console.log(req?.user);
   req.flash("success_msg", "Google Login Successfully");
   res.redirect("/ideas");
+  return;
 };
 
 module.exports = {

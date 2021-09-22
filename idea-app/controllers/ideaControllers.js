@@ -2,7 +2,10 @@ const mongoose = require("mongoose");
 const _ = require("lodash");
 
 //idea generate doc import
-const generateIdeaDoc = require("../helpers/docGenarate");
+const {
+  generateIdeaDoc,
+  generateCommentDoc,
+} = require("../helpers/docGenarate");
 // require model;
 const Idea = require("../models/idea");
 
@@ -119,13 +122,20 @@ const deleteIdeaController = async (req, res, next) => {
 //get single Idea controller
 const getSingleIdeaController = async (req, res, next) => {
   const id = req.params.id;
+  let contextComments;
   if (!mongoose.Types.ObjectId.isValid(id)) {
     return res.status(400).render("pages/notFound");
   }
   const idea = await Idea.findById(id);
   // console.log(idea, "idea");
 
-  // console.log(singleIdea, "singleIdea");
+  if (idea.comments.length > 0) {
+    contextComments = idea.comments.map((comment) =>
+      generateCommentDoc(comment?._id, comment?.title, comment?.text)
+    );
+  }
+
+  // console.log(idea, "idea");
   if (idea) {
     const singleIdea = generateIdeaDoc(
       idea._id,
@@ -133,8 +143,12 @@ const getSingleIdeaController = async (req, res, next) => {
       idea.description,
       idea.allowComments,
       idea.status,
-      idea.tags
+      idea.tags,
+      contextComments
     );
+
+    console.log(singleIdea, "singleIdea");
+
     return res.render("ideas/shows", {
       title: idea.title,
       idea: singleIdea,

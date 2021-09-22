@@ -1,11 +1,12 @@
-module.exports = function generateIdeaDoc(
+const generateIdeaDoc = (
   id,
   title,
   description,
   allowComments,
   status,
-  tags
-) {
+  tags,
+  comments
+) => {
   return {
     id,
     title,
@@ -13,5 +14,15 @@ module.exports = function generateIdeaDoc(
     allowComments,
     status,
     tags,
+    comments,
   };
+};
+
+const generateCommentDoc = (id, title, text) => {
+  return { id, title, text };
+};
+
+module.exports = {
+  generateIdeaDoc,
+  generateCommentDoc,
 };
