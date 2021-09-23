@@ -7,7 +7,13 @@ const trancateContent = (content, num) => {
   return content.slice(0, num) + "...";
 };
 
+const displayBtn = (lValue, rValue) => {
+  console.log(lValue, rValue, "afa");
+  return lValue.equals(rValue) ? "block" : "none";
+};
+
 module.exports = {
   compareValues,
   trancateContent,
+  displayBtn,
 };

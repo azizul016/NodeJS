@@ -18,7 +18,7 @@ const {
 } = require("../controllers/ideaControllers");
 
 //login in middleware check;
-const { isAuth } = require("../middleware/authMiddleware");
+const { isAuth, checkIdeaOwnership } = require("../middleware/authMiddleware");
 
 //get all ideas
 router.get("/", getIdeaController);
@@ -30,19 +30,20 @@ router.get("/new", isAuth, addIdeaController);
 router.post("/", isAuth, ideaValidators(), addIdeaValidate, postIdeaController);
 
 //show edit idea from;
-router.get("/:id/edit", isAuth, editIdeaController);
+router.get("/:id/edit", isAuth, checkIdeaOwnership, editIdeaController);
 
 //update ideas
 router.put(
   "/:id",
   isAuth,
+  checkIdeaOwnership,
   ideaValidators(),
   updateIdeaValidators,
   updateIdeaController
 );
 
 //delete route;
-router.delete("/:id", isAuth, deleteIdeaController);
+router.delete("/:id", checkIdeaOwnership, isAuth, deleteIdeaController);
 
 //get single idea
 router.get("/:id", getSingleIdeaController);

@@ -4,6 +4,9 @@
     <div class="card-text">{{{idea.description}}}</div>
 
     {{#if user}}
+
+
+    {{!-- <div style="display:{{displayBtn idea?.user?.id user?._id}}"> --}}
       <div class="d-flex align-item-center">
         <div>
           <a
@@ -21,6 +24,7 @@
           </form>
         </div>
       </div>
+      {{!-- </div> --}}
     {{else}}
     {{/if}}
 
@@ -32,11 +36,19 @@
     <span class="badge bg-primary">{{this}}</span>
   {{/each}}
 </div>
-<div class="card mt-2">
 
+
+
+
+{{!-- for login. without login cannot seeing comment secton --}}
+{{#if user}}
+
+{{!-- allow comments is false then cannot add comments --}}
+{{#if idea.allowComments}}
+<div class="card mt-2">
   <a href="/ideas/{{idea.id}}/comments/new" class="btn btn-info btn-sm">Add a
     Comments</a>
-
+{{!-- comments looping --}}
   <div class="card-body mt-2">
     {{#each idea.comments}}
       <h5 class="card-title">{{title}}</h5>
@@ -49,6 +61,19 @@
     {{else}}
       <p class="card-text">No Comments to Show</p>
     {{/each}}
+    {{!-- comments looping end--}}
 
   </div>
 </div>
+{{else}}
+<h5 class="text-muted text-center">Comments Disabled</h5>
+{{/if}}
+{{!-- allow comments is false then cannot add comments end --}}
+{{else}}
+<h5 class="text-muted text-center">Please <a href="/auth/login">Login</a> for add and view comments</h5>
+{{/if}}
+
+
+
+
+

@@ -21,7 +21,7 @@ const flash = require("connect-flash");
 require("./passportAuth/passport").localStrategy(passport);
 require("./passportAuth/passport").googleStrategy(passport);
 
-const { compareValues, trancateContent } = require("./helpers/hbs");
+const { compareValues, trancateContent, displayBtn } = require("./helpers/hbs");
 
 //db connection;
 const { connectDB, url } = require("./playground/DBConnection.js");
@@ -44,7 +44,10 @@ const app = express();
 //express handlebars engine diclear
 app.engine(
   ".hbs",
-  exphbs({ extname: ".hbs", helpers: { compareValues, trancateContent } })
+  exphbs({
+    extname: ".hbs",
+    helpers: { compareValues, trancateContent, displayBtn },
+  })
 );
 app.set("view engine", ".hbs");
 

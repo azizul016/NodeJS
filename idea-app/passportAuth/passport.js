@@ -14,14 +14,18 @@ const localStrategy = (passport) => {
       },
 
       async function (email, password, next) {
+        let isMatch = false;
         try {
           //checking email
           const user = await User.findOne({ email });
           if (!user)
             return next(null, false, { message: "Invalid Email and Password" });
 
-          //checking Password
-          const isMatch = await bcrypt.compare(password, user.password);
+          if (user?.password) {
+            //checking Password
+            isMatch = await bcrypt.compare(password, user.password);
+          }
+
           if (!isMatch)
             return next(null, false, { message: "Invalid Email and Password" });
 

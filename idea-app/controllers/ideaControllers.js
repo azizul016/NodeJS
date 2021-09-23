@@ -33,14 +33,20 @@ const addIdeaController = (req, res, next) => {
   return res.render("ideas/new");
 };
 
-//add idea controller
+//post or add idea controller
 const postIdeaController = async (req, res) => {
+  // console.log(req.user, "req.user");
   // console.log(errors.array());
   req.body.tags = req.body.tags.split(",");
   const idea = new Idea({
     ...req.body,
+    user: {
+      id: req?.user?._id,
+      firstName: req?.user?.firstName,
+    },
     // allowComments,
   });
+  // console.log(idea, "idea");
   await idea.save();
   //redirect idea
   req.flash("success_msg", "Idea Added Successfully");
@@ -126,7 +132,7 @@ const getSingleIdeaController = async (req, res, next) => {
   if (!mongoose.Types.ObjectId.isValid(id)) {
     return res.status(400).render("pages/notFound");
   }
-  const idea = await Idea.findById(id);
+  const idea = await Idea.findById(id).populate("comments");
   // console.log(idea, "idea");
 
   if (idea.comments.length > 0) {
@@ -147,7 +153,7 @@ const getSingleIdeaController = async (req, res, next) => {
       contextComments
     );
 
-    console.log(singleIdea, "singleIdea");
+    // console.log(singleIdea, "singleIdea");
 
     return res.render("ideas/shows", {
       title: idea.title,
