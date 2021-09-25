@@ -11,6 +11,7 @@
 // using passport for is auth authentication
 
 const Idea = require("../models/idea");
+const { Comment } = require("../models/comment");
 
 const isAuth = (req, res, next) => {
   if (req.isAuthenticated()) {
@@ -22,6 +23,7 @@ const isAuth = (req, res, next) => {
   }
 };
 
+//check idea owner ship.
 const checkIdeaOwnership = async (req, res, next) => {
   const id = req.params.id;
   const idea = await Idea.findById(id);
@@ -41,4 +43,24 @@ const checkIdeaOwnership = async (req, res, next) => {
   }
 };
 
-module.exports = { isAuth, checkIdeaOwnership };
+//check comment owner ship
+const checkCommentOwnership = async (req, res, next) => {
+  const id = req.params.comment_id;
+  const comment = await Comment.findById(id);
+  if (comment) {
+    if (comment?.user?.id.equals(req?.user?._id)) {
+      // if (idea?.user?.id?.toString() === req?.user?._id?.toString()) {
+      next();
+      return;
+    } else {
+      req.flash("error_msg", "You are not allowed for perform this action");
+      res.redirect("back");
+      return;
+    }
+  } else {
+    req.flash("error_msg", "Comment not found");
+    res.redirect("back");
+  }
+};
+
+module.exports = { isAuth, checkIdeaOwnership, checkCommentOwnership };

@@ -35,22 +35,27 @@ const addIdeaController = (req, res, next) => {
 
 //post or add idea controller
 const postIdeaController = async (req, res) => {
-  // console.log(req.user, "req.user");
-  // console.log(errors.array());
-  req.body.tags = req.body.tags.split(",");
-  const idea = new Idea({
-    ...req.body,
-    user: {
-      id: req?.user?._id,
-      firstName: req?.user?.firstName,
-    },
-    // allowComments,
-  });
-  // console.log(idea, "idea");
-  await idea.save();
-  //redirect idea
-  req.flash("success_msg", "Idea Added Successfully");
-  return res.redirect("/ideas");
+  try {
+    req.body.tags = req?.body?.tags?.split(",");
+
+    const idea = new Idea({
+      ...req?.body,
+      user: {
+        id: req?.user?._id,
+        firstName: req?.user?.firstName,
+      },
+      // allowComments,
+    });
+
+    // console.log(idea, "idea");
+    await idea?.save();
+    //redirect idea
+    // console.log("testing purpose");
+    req.flash("success_msg", "Idea Added Successfully");
+    return res.redirect("/ideas");
+  } catch (error) {
+    cosole.log(error.message);
+  }
 };
 
 //show edit idea from controller
@@ -137,7 +142,13 @@ const getSingleIdeaController = async (req, res, next) => {
 
   if (idea.comments.length > 0) {
     contextComments = idea.comments.map((comment) =>
-      generateCommentDoc(comment?._id, comment?.title, comment?.text)
+      generateCommentDoc(
+        comment?._id,
+        comment?.title,
+        comment?.text,
+        comment?.user,
+        comment?.createdAt
+      )
     );
   }
 
@@ -150,14 +161,17 @@ const getSingleIdeaController = async (req, res, next) => {
       idea.allowComments,
       idea.status,
       idea.tags,
+      idea.user,
+      idea.createdAt,
       contextComments
     );
 
-    // console.log(singleIdea, "singleIdea");
+    console.log(singleIdea, "singleIdea");
 
     return res.render("ideas/shows", {
       title: idea.title,
       idea: singleIdea,
+      // idea: { ...singleIdea, user: idea?.user },
     });
   } else {
     return res.status(404).render("pages/notFound");

@@ -2,7 +2,10 @@ const express = require("express");
 const router = express.Router({ mergeParams: true });
 
 //login in middleware check;
-const { isAuth } = require("../middleware/authMiddleware");
+const {
+  isAuth,
+  checkCommentOwnership,
+} = require("../middleware/authMiddleware");
 
 const {
   addCommentController,
@@ -25,12 +28,18 @@ router.get("/new", isAuth, addCommentController);
 router.post(
   "/",
   isAuth,
+
   commentValidators(),
   commentValidate,
   postCommentController
 );
 
 //delete comment rotue /ideas/:id/comments/:comment_id
-router.delete("/:comment_id", isAuth, deleteCommentController);
+router.delete(
+  "/:comment_id",
+  isAuth,
+  checkCommentOwnership,
+  deleteCommentController
+);
 
 module.exports = router;

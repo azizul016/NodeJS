@@ -1,7 +1,7 @@
 //home controller
 const homeController = (req, res) => {
   return res.render("pages/index", {
-    text: "Hello from Node Js",
+    text: "Shairing Idea for Better Future",
     title: "Home Page",
   });
 };

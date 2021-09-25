@@ -21,7 +21,12 @@ const flash = require("connect-flash");
 require("./passportAuth/passport").localStrategy(passport);
 require("./passportAuth/passport").googleStrategy(passport);
 
-const { compareValues, trancateContent, displayBtn } = require("./helpers/hbs");
+const {
+  compareValues,
+  trancateContent,
+  displayBtn,
+  formatDate,
+} = require("./helpers/hbs");
 
 //db connection;
 const { connectDB, url } = require("./playground/DBConnection.js");
@@ -46,7 +51,7 @@ app.engine(
   ".hbs",
   exphbs({
     extname: ".hbs",
-    helpers: { compareValues, trancateContent, displayBtn },
+    helpers: { compareValues, trancateContent, displayBtn, formatDate },
   })
 );
 app.set("view engine", ".hbs");
@@ -115,7 +120,8 @@ app.use(morgan("dev"));
 
 app.use((req, res, next) => {
   // res.locals.user = req.session.user || null;
-  res.locals.user = req.user || null;
+  res.locals.user = req?.user || null;
+  res.locals.user_id = req?.user?._id || null;
   res.locals.success_msg = req.flash("success_msg");
   res.locals.error_msg = req.flash("error_msg");
   res.locals.error = req.flash("error");

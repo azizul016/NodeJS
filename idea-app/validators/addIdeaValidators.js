@@ -4,6 +4,9 @@ const addIdeaValidate = (req, res, next) => {
   const errors = validationResult(req);
   const allowComments = req.body.allowComments ? true : false;
   req.body.allowComments = allowComments;
+
+  // console.log(errors?.array());
+
   if (!errors.isEmpty()) {
     return res.status(400).render("ideas/new", {
       title: "Add Idea",

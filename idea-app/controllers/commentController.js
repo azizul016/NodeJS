@@ -35,7 +35,14 @@ const postCommentController = async (req, res, next) => {
 
     //using vertirual
     // const comment = new Comment({ ...req.body, idea: idea });
-    const comment = new Comment({ ...req.body, idea: idea?._id });
+    const comment = new Comment({
+      ...req.body,
+      idea: idea?._id,
+      user: {
+        id: req?.user?._id,
+        firstName: req?.user?.firstName,
+      },
+    });
     await comment.save();
 
     return res.redirect(`/ideas/${id}`);

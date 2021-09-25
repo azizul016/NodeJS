@@ -97,6 +97,7 @@ const ideaSchema = new Schema(
     toObject: {
       virtuals: true,
     },
+    timestamps: true,
   }
 );
 

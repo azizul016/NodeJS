@@ -1,12 +1,32 @@
 <div class="card mt-3">
   <div class="card-body">
-    <h5 class="card-title">{{idea.title}}</h5>
-    <div class="card-text">{{{idea.description}}}</div>
+    <div class="d-flex align-item-center justify-content-between">
+      <div style="width:80%">
+          <h5 class="card-title">{{idea.title}}</h5>
+          <div class="card-text">{{{idea.description}}}</div>
+      </div>
+      <div class="ml-2" style="text-align: center; border: 2px dashed #f69c55; padding: 15px">
+          <span class="card-title">Written by: <strong>{{idea.user.firstName}}</strong></sp>
+          <div class="card-text"> <p>{{formatDate idea.createdAt 'dd--MM-yyyy'}}</p> </div>
+      </div>
+    </div>
 
+    <div class="my-3">
+      {{!-- for tag array show start --}}
+      <em>Tags:</em>
+      {{#each idea.tags}}
+        <span class="badge bg-primary">{{this}}</span>
+      {{/each}}
+    </div>
+      {{!-- for tag array show end --}}
+
+
+{{!-- if login then show "edit" and "delete" button start  --}}
     {{#if user}}
 
-
-    {{!-- <div style="display:{{displayBtn idea?.user?.id user?._id}}"> --}}
+    {{!-- displayBtn using for showing this type button that idea you not creating --}}
+    <div style="display:{{displayBtn idea.user.id user_id}}">
+    {{!-- <div style="display:{{displayBtn idea.user.id  user._id}}"> --}}
       <div class="d-flex align-item-center">
         <div>
           <a
@@ -24,18 +44,15 @@
           </form>
         </div>
       </div>
-      {{!-- </div> --}}
+      </div>
     {{else}}
     {{/if}}
+    {{!-- if login then show "edit" and "delete" button end  --}}
+
 
   </div>
 </div>
-<div class="my-3">
-  <em>Tags:</em>
-  {{#each idea.tags}}
-    <span class="badge bg-primary">{{this}}</span>
-  {{/each}}
-</div>
+
 
 
 
@@ -51,12 +68,27 @@
 {{!-- comments looping --}}
   <div class="card-body mt-2">
     {{#each idea.comments}}
-      <h5 class="card-title">{{title}}</h5>
-      <p class="card-text">{{text}}</p>
-      {{!-- idea.id is on label up id so that using {{../}} --}}
+
+
+      <div class="d-flex align-item-center justify-content-between">
+        <div>
+          <h5 class="card-title">{{title}}</h5>
+          <p class="card-text">{{text}}</p>
+        </div>
+        <div style="border:1px solid red; padding:15px">
+          <p><small>{{user.firstName}}</small></p>
+          <p><small>{{formatDate createdAt 'dd--MM-yyyy'}}</small></p>
+        </div>
+      </div>
+
+
+      
+    <div style="display:{{displayBtn user.id ../user_id}}">
+        {{!-- idea.id is on label up id so that using {{../}} --}}
       <form action="/ideas/{{../idea.id}}/comments/{{id}}?_method=DELETE" method="POST">
         <button class="btn btn-danger btn-sm m-2">Delete</button>
       </form>
+    </div>
       <hr />
     {{else}}
       <p class="card-text">No Comments to Show</p>
