@@ -11,18 +11,21 @@ const Idea = require("../models/idea");
 
 //get all idea controller
 const getIdeaController = async (req, res, next) => {
-  const ideas = await Idea.find();
-  const contexts = ideas.map((idea) =>
-    generateIdeaDoc(
-      idea._id,
-      idea.title,
-      idea.description,
-      idea.allowComments,
-      idea.status,
-      idea.tags
-    )
-  );
+  // .lean() using for handlebars error problem for solve
+  const ideas = await Idea.find().lean();
+  // const contexts = ideas.map((idea) =>
+  //   generateIdeaDoc(
+  //     idea._id,
+  //     idea.title,
+  //     idea.description,
+  //     idea.allowComments,
+  //     idea.status,
+  //     idea.tags
+  //   )
+  // );
+  const contexts = ideas.map((idea) => generateIdeaDoc(idea));
   return res.render("ideas/index", {
+    path: "/ideas",
     ideas: contexts,
     title: "All Ideas",
   });
@@ -30,13 +33,16 @@ const getIdeaController = async (req, res, next) => {
 
 ///show form to add idea controller
 const addIdeaController = (req, res, next) => {
-  return res.render("ideas/new");
+  return res.render("ideas/new", {
+    title: "Add Idea",
+    path: "/ideas/new",
+  });
 };
 
 //post or add idea controller
 const postIdeaController = async (req, res) => {
   try {
-    req.body.tags = req?.body?.tags?.split(",");
+    // req.body.tags = req?.body?.tags?.split(",");
 
     const idea = new Idea({
       ...req?.body,
@@ -54,7 +60,7 @@ const postIdeaController = async (req, res) => {
     req.flash("success_msg", "Idea Added Successfully");
     return res.redirect("/ideas");
   } catch (error) {
-    cosole.log(error.message);
+    console.log(error.message);
   }
 };
 
@@ -69,14 +75,16 @@ const editIdeaController = async (req, res, next) => {
   const idea = await Idea.findById(id);
 
   if (idea) {
-    const singleIdea = generateIdeaDoc(
-      idea._id,
-      idea.title,
-      idea.description,
-      idea.allowComments,
-      idea.status,
-      idea.tags
-    );
+    // const singleIdea = generateIdeaDoc(
+    //   idea._id,
+    //   idea.title,
+    //   idea.description,
+    //   idea.allowComments,
+    //   idea.status,
+    //   idea.tags
+    // );
+
+    const singleIdea = generateIdeaDoc(idea);
 
     return res.render("ideas/edit", {
       title: "Edit Idea",
@@ -137,39 +145,49 @@ const getSingleIdeaController = async (req, res, next) => {
   if (!mongoose.Types.ObjectId.isValid(id)) {
     return res.status(400).render("pages/notFound");
   }
-  const idea = await Idea.findById(id).populate("comments");
+
+  // .lean() using for handlebars error problem for solve
+  const idea = await Idea.findById(id).lean().populate("comments");
   // console.log(idea, "idea");
 
-  if (idea.comments.length > 0) {
+  // if (idea?.comments?.length > 0) {
+  //   contextComments = idea.comments.map((comment) =>
+  //     generateCommentDoc(
+  //       comment?._id,
+  //       comment?.title,
+  //       comment?.text,
+  //       comment?.user,
+  //       comment?.createdAt
+  //     )
+  //   );
+  // }
+  if (idea?.comments?.length > 0) {
     contextComments = idea.comments.map((comment) =>
-      generateCommentDoc(
-        comment?._id,
-        comment?.title,
-        comment?.text,
-        comment?.user,
-        comment?.createdAt
-      )
+      generateCommentDoc(comment)
     );
   }
 
   // console.log(idea, "idea");
   if (idea) {
-    const singleIdea = generateIdeaDoc(
-      idea._id,
-      idea.title,
-      idea.description,
-      idea.allowComments,
-      idea.status,
-      idea.tags,
-      idea.user,
-      idea.createdAt,
-      contextComments
-    );
+    // const singleIdea = generateIdeaDoc(
+    //   idea._id,
+    //   idea.title,
+    //   idea.description,
+    //   idea.allowComments,
+    //   idea.status,
+    //   idea.tags,
+    //   idea.user,
+    //   idea.createdAt,
+    //   contextComments
+    // );
+    const singleIdea = generateIdeaDoc(idea);
+    singleIdea.comments = contextComments;
 
-    console.log(singleIdea, "singleIdea");
+    // console.log(singleIdea, "singleIdea");
 
     return res.render("ideas/shows", {
-      title: idea.title,
+      title: singleIdea.title,
+      // title: idea.title,
       idea: singleIdea,
       // idea: { ...singleIdea, user: idea?.user },
     });

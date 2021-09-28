@@ -1,5 +1,5 @@
-const generateIdeaDoc = (
-  id,
+const generateIdeaDoc = ({
+  _id,
   title,
   description,
   allowComments,
@@ -7,10 +7,10 @@ const generateIdeaDoc = (
   tags,
   user,
   createdAt,
-  comments
-) => {
+  comments,
+}) => {
   return {
-    id,
+    _id,
     title,
     description,
     allowComments,
@@ -22,8 +22,8 @@ const generateIdeaDoc = (
   };
 };
 
-const generateCommentDoc = (id, title, text, user, createdAt) => {
-  return { id, title, text, user, createdAt };
+const generateCommentDoc = ({ _id, title, text, user, createdAt }) => {
+  return { _id, title, text, user, createdAt };
 };
 
 module.exports = {

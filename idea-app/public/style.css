@@ -1,6 +1,9 @@
 .description .ck-editor__editable {
   min-height: 200px !important;
 }
+.active {
+  color: red !important;
+}
 
 /* bootstrap tags input css start */
 .bootstrap-tagsinput {
@@ -66,3 +69,17 @@
 }
 
 /* bootstrap tags input css end*/
+
+/* profile dropdown list start */
+.profile_dropdown_list a {
+  color: black !important;
+  list-style-type: none !important;
+  text-decoration: none !important;
+}
+/* .list-group-item.active {
+  z-index: 20;
+  color: #fff !important;
+  background-color: red !important;
+  border-color: red !important;
+} */
+/* profile dropdown list end */

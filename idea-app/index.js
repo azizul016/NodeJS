@@ -26,6 +26,8 @@ const {
   trancateContent,
   displayBtn,
   formatDate,
+  comparePath,
+  // compareValues,
 } = require("./helpers/hbs");
 
 //db connection;
@@ -33,6 +35,7 @@ const { connectDB, url } = require("./playground/DBConnection.js");
 
 //route import;
 const ideaRoute = require("./route/ideaRoute");
+const userRoute = require("./route/userRoute");
 const commentsRoute = require("./route/commentsRoute");
 const pageRoute = require("./route/pageRoute");
 const authRoute = require("./route/authRoute");
@@ -51,7 +54,14 @@ app.engine(
   ".hbs",
   exphbs({
     extname: ".hbs",
-    helpers: { compareValues, trancateContent, displayBtn, formatDate },
+    helpers: {
+      compareValues,
+      trancateContent,
+      displayBtn,
+      formatDate,
+      comparePath,
+      // compareValues,
+    },
   })
 );
 app.set("view engine", ".hbs");
@@ -122,6 +132,7 @@ app.use((req, res, next) => {
   // res.locals.user = req.session.user || null;
   res.locals.user = req?.user || null;
   res.locals.user_id = req?.user?._id || null;
+  res.locals.firstName = req?.user?.firstName || null;
   res.locals.success_msg = req.flash("success_msg");
   res.locals.error_msg = req.flash("error_msg");
   res.locals.error = req.flash("error");
@@ -133,6 +144,7 @@ app.use((req, res, next) => {
 //route declear ;
 app.use("/auth", authRoute);
 app.use("/ideas", ideaRoute);
+app.use("/users", userRoute);
 app.use("/ideas/:id/comments", commentsRoute);
 app.use(pageRoute);
 

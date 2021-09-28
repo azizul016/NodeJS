@@ -14,60 +14,123 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav ms-auto">
-
+        <li class="nav-item">
+          <a
+            class="nav-link {{comparePath "/ideas" path}}"
+            aria-current="page"
+            href="/ideas"
+          >Public Idea</a>
+        </li>
         {{#if user}}
-          <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="/ideas">Public
-              Idea</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="/ideas/new">Add
-              Idea</a>
-          </li>
-          <li class="nav-item">
+
+          <li class="nav-item dropdown">
             <a
-              class="nav-link active"
+              class="nav-link dropdown-toggle"
+              href="#"
+              id="navbarDropdown"
+              role="button"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+            >
+              {{firstName}}
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <li><a
+                  class="nav-link dropdown-item"
+                  aria-current="page"
+                  href="#"
+                >Deshboard</a></li>
+              <li><a
+                  class="nav-link dropdown-item
+                    {{comparePath "/ideas/new" path}}"
+                  aria-current="page"
+                  href="/ideas/new"
+                >Add Idea</a></li>
+              <li><a
+                  class="nav-link dropdown-item {{comparePath "/user" path}}"
+                  aria-current="page"
+                  href="/users/me"
+                >Profile</a></li>
+              <li>
+                <a
+                  class="nav-link dropdown-item
+                    {{comparePath "/auth/logout" path}}"
+                  aria-current="page"
+                  href="/auth/logout"
+                >Logout</a></li>
+
+            </ul>
+          </li>
+
+          {{!-- <li class="nav-item">
+            <a
+              class="nav-link {{comparePath "/ideas" path}}"
+              aria-current="page"
+              href="/ideas"
+            >Public Idea</a>
+          </li> --}}
+
+          {{!-- <li class="nav-item">
+            <a
+              class="nav-link {{comparePath "/ideas/new" path}}"
+              aria-current="page"
+              href="/ideas/new"
+            >Add Idea</a>
+          </li> --}}
+          {{!-- <li class="nav-item">
+            <a
+              class="nav-link {{comparePath "/auth/logout" path}}"
               aria-current="page"
               href="/auth/logout"
             >Logout</a>
-          </li>
+          </li> --}}
 
-          <li class="nav-item">
+          {{!-- <li class="nav-item">
             <a
-              class="nav-link active"
+              class="nav-link {{comparePath "/about" path}}"
               aria-current="page"
               href="/about"
             >About</a>
-          </li>
+          </li> --}}
 
         {{else}}
-          <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="/ideas">Public
-              Idea</a>
-          </li>
+          {{!-- <li class="nav-item">
+            <a
+              class="nav-link {{comparePath "/ideas" path}}"
+              aria-current="page"
+              href="/ideas"
+            >Public Idea</a>
+          </li> --}}
           <li class="nav-item">
             <a
-              class="nav-link active"
+              class="nav-link {{comparePath "/auth/register" path}}"
               aria-current="page"
               href="/auth/register"
             >Register</a>
           </li>
           <li class="nav-item">
             <a
-              class="nav-link active"
+              class="nav-link {{comparePath "/auth/login" path}}"
               aria-current="page"
               href="/auth/login"
             >Login</a>
           </li>
-
+          {{!-- 
           <li class="nav-item">
             <a
-              class="nav-link active"
+              class="nav-link {{comparePath "/about" path}}"
               aria-current="page"
               href="/about"
             >About</a>
-          </li>
+          </li> --}}
         {{/if}}
+        <li class="nav-item">
+          <a
+            class="nav-link {{comparePath "/about" path}}"
+            aria-current="page"
+            href="/about"
+          >About</a>
+        </li>
 
       </ul>
     </div>

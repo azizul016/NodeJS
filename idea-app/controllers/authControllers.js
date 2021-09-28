@@ -5,6 +5,7 @@ const bcrypt = require("bcryptjs");
 const getRegisterController = (req, res) => {
   res.render("auth/register", {
     title: "Registration",
+    path: "/auth/register",
   });
 };
 
@@ -12,6 +13,7 @@ const getRegisterController = (req, res) => {
 const getLoginController = (req, res) => {
   res.render("auth/login", {
     title: "Login for Idea App",
+    path: "/auth/login",
   });
 };
 

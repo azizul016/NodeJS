@@ -1,5 +1,34 @@
 const { format } = require("date-fns");
 
+//not working
+
+// const compareValues = (value1, value2, value3) => {
+//   console.log(value1, value2, value3, "values");
+//   switch (value3) {
+//     case "select":
+//       value1 === value2 && "selected";
+//       break;
+
+//     case "path":
+//       value1 === value2 && "active";
+//       break;
+
+//     case "btn":
+//       // rValue && rValue.equals(lValue) ? "block" : "none";
+//       break;
+
+//     default:
+//       break;
+//   }
+// };
+
+//for active menu
+const comparePath = (lPath, rPath) => {
+  console.log(lPath, rPath, "path");
+  return lPath === rPath && "active";
+};
+
+// selected for new and edit page in dropdown
 const compareValues = (value1, value2) => {
   return value1 === value2 && "selected";
 };
@@ -29,4 +58,6 @@ module.exports = {
   trancateContent,
   displayBtn,
   formatDate,
+  comparePath,
+  compareValues,
 };

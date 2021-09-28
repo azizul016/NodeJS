@@ -3,6 +3,7 @@ const homeController = (req, res) => {
   return res.render("pages/index", {
     text: "Shairing Idea for Better Future",
     title: "Home Page",
+    path: "/",
   });
 };
 
@@ -11,6 +12,7 @@ const aboutController = (req, res) => {
   return res.render("pages/about", {
     text: "Know as About Us",
     title: "About US",
+    path: "/about",
   });
 };
 

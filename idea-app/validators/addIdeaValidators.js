@@ -7,6 +7,9 @@ const addIdeaValidate = (req, res, next) => {
 
   // console.log(errors?.array());
 
+  // console.log(req?.body, "body");
+  req.body.tags = req?.body?.tags?.split(",");
+
   if (!errors.isEmpty()) {
     return res.status(400).render("ideas/new", {
       title: "Add Idea",
@@ -16,6 +19,7 @@ const addIdeaValidate = (req, res, next) => {
         description: req.body.description,
         allowComments,
         status: req.body.status,
+        tags: req.body.tags,
       },
     });
   } else {

@@ -6,7 +6,8 @@ const { Comment } = require("../models/comment");
 const addCommentController = async (req, res, next) => {
   // console.log(req.params.id);
   const idea = await Idea.findById(req.params.id);
-  const generateIdeaDocument = generateIdeaDoc(idea?._id, idea?.title);
+  // const generateIdeaDocument = generateIdeaDoc(idea?._id, idea?.title);
+  const generateIdeaDocument = generateIdeaDoc(idea);
   if (idea) {
     return res.render("comments/new", {
       title: "Add a Comment",
@@ -20,6 +21,9 @@ const addCommentController = async (req, res, next) => {
 //post comment controller
 const postCommentController = async (req, res, next) => {
   const id = req.params.id;
+
+  // console.log(id, "id");
+
   const idea = await Idea.findById(id);
   // console.log(idea, "fadsfadfad");
   if (idea) {
@@ -35,8 +39,12 @@ const postCommentController = async (req, res, next) => {
 
     //using vertirual
     // const comment = new Comment({ ...req.body, idea: idea });
+
+    // const generateIdeaDoc = generateIdeaDoc(idea);
+
     const comment = new Comment({
       ...req.body,
+      // idea: generateIdeaDoc?._id,
       idea: idea?._id,
       user: {
         id: req?.user?._id,
@@ -56,6 +64,9 @@ const deleteCommentController = async (req, res) => {
   const id = req.params.id;
   const comment_id = req.params.comment_id;
   const idea = await Idea.findById(id);
+
+  // console.log(id, comment_id, idea);
+
   if (idea) {
     //for reference object Id
     // const comments = idea.comments.filter(

@@ -30,13 +30,13 @@
       <div class="d-flex align-item-center">
         <div>
           <a
-            href="/ideas/{{idea.id}}/edit"
+            href="/ideas/{{idea._id}}/edit"
             class="btn btn-primary btn-sm"
           >Edit</a>
         </div>
         <div>
           <form
-            action="/ideas/{{idea.id}}?_method=DELETE"
+            action="/ideas/{{idea._id}}?_method=DELETE"
             method="POST"
             class="mx-2"
           >
@@ -63,7 +63,7 @@
 {{!-- allow comments is false then cannot add comments --}}
 {{#if idea.allowComments}}
 <div class="card mt-2">
-  <a href="/ideas/{{idea.id}}/comments/new" class="btn btn-info btn-sm">Add a
+  <a href="/ideas/{{idea._id}}/comments/new" class="btn btn-info btn-sm">Add a
     Comments</a>
 {{!-- comments looping --}}
   <div class="card-body mt-2">
@@ -75,7 +75,7 @@
           <h5 class="card-title">{{title}}</h5>
           <p class="card-text">{{text}}</p>
         </div>
-        <div style="border:1px solid red; padding:15px">
+        <div style="border:1px solid red; padding:15px;width:300px">
           <p><small>{{user.firstName}}</small></p>
           <p><small>{{formatDate createdAt 'dd--MM-yyyy'}}</small></p>
         </div>
@@ -85,7 +85,7 @@
       
     <div style="display:{{displayBtn user.id ../user_id}}">
         {{!-- idea.id is on label up id so that using {{../}} --}}
-      <form action="/ideas/{{../idea.id}}/comments/{{id}}?_method=DELETE" method="POST">
+      <form action="/ideas/{{../idea._id}}/comments/{{_id}}?_method=DELETE" method="POST">
         <button class="btn btn-danger btn-sm m-2">Delete</button>
       </form>
     </div>

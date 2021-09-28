@@ -9,7 +9,7 @@ const ideaSchema = new Schema(
       type: String,
       required: [true, "Title is Required"],
       minLength: [2, "Title Must Be 2 Character"],
-      maxLength: [20, "Title Must Be 20 Character"],
+      maxLength: [50, "Title Must Be 50 Character"],
       trim: true,
       // toLowerCase: true,
       // set(v) {
