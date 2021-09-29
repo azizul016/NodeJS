@@ -56,6 +56,8 @@ const reginterValidators = () => {
       }),
   ];
 };
+
+//login validator;
 const loginValidators = () => {
   return [
     check("email")
@@ -72,7 +74,28 @@ const loginValidators = () => {
   ];
 };
 
+//update user validator;
+const updateUserValidators = () => {
+  return [
+    check("firstName")
+      .notEmpty()
+      .withMessage("First Name is required")
+      .bail()
+      .isLength({ min: 2, max: 20 })
+      .withMessage("First Name must be in 2 to 50 characters")
+      .trim(),
+    check("lastName")
+      .notEmpty()
+      .withMessage("Last Name is required")
+      .bail()
+      .isLength({ min: 2, max: 20 })
+      .withMessage("Last Name must be in 2 to 50 characters")
+      .trim(),
+  ];
+};
+
 module.exports = {
   reginterValidators,
   loginValidators,
+  updateUserValidators,
 };

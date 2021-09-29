@@ -2,7 +2,25 @@
   <div class="col-md-3">
     {{>_deshboardPanel.left}}
   </div>
-  <div class="col-md-9">
-    All profile Content goes here
+  <div class="col-md-7">
+   <ul class="list-unstyled mb-3">
+     <li><em>Profile Picture:</em><span class="m-3">Please Click Edit Profile to Upload Profile Picture</span></li>
+     <li class='my-3'><em  class="me-2">FirstName :</em>{{user.firstName}}</li>
+     <li><em class="me-2">LastName :</em>{{user.lastName}}</li>
+     <li class='my-3'><em class="me-2">Email :</em>{{user.email}}</li>
+     <li><em class="me-2">Password :</em>
+        <i class="fa fa-star"></i>
+        <i class="fa fa-star"></i>
+        <i class="fa fa-star"></i>
+        <i class="fa fa-star"></i>
+        <i class="fa fa-star"></i>
+     </li>
+   </ul>
+  <div class="d-flex align-items-center justify-content-between">     
+      <a href="/users/me/edit" class="btn btn-info btn-sm">Edit Profile</a>
+      <form action="/user/me?_method=DELETE" method="POST">
+          <button class="btn btn-danger btn-sm me-5">Delete Account</button>
+      </form>
+  </div>
   </div>
 </div>
