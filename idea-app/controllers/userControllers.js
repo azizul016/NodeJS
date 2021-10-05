@@ -46,8 +46,64 @@ const updateUserController = async (req, res, next) => {
   }
 };
 
+const getUserIdeasController = async (req, res) => {
+  const user = await User.findById(req?.params?.id).populate("ideas").lean();
+  const modifyUser = user?.ideas?.filter((idea) => idea.status === "public");
+  // console.log(modifyUser, "modifyUser");
+  if (user) {
+    return res.render("ideas/index", {
+      title: `All Ideas By ${user?.firstName}`,
+      ideas: modifyUser,
+      // ideas: user?.ideas,
+      firstName: user?.firstName,
+      userRef: true,
+    });
+  } else {
+    return res.status(404).render("pages/notFound", {
+      title: "Not Found Pages",
+    });
+  }
+};
+
+//deshboard controller
+const deshboardController = async (req, res) => {
+  const user = await User.findById(req?.user?._id).populate("ideas").lean();
+  // console.log(user, "user");
+  if (user) {
+    res.render("users/deshboard", {
+      title: `All Idea By ${user.firstName}`,
+      ideas: user?.ideas,
+      path: "/users/me/ideas",
+    });
+  } else {
+    return res.status(404).render("pages/notFound", {
+      title: "Not Found Pages",
+    });
+  }
+};
+
+const deleteUserController = async (req, res) => {
+  // const user = await User.findByIdAndDelete(req?.user?._id);
+  //using schema remove; see schema remove
+  const user = req.user.remove();
+
+  // console.log(user, "removing user");
+
+  if (user) {
+    req.logout();
+    req.flash("success_msg", "Delete Your Account Successfully");
+    return res.redirect("/ideas");
+  } else {
+    req.flash("error_msg", "Something Occurs Cannot Delete Your Account");
+    return res.redirect("back");
+  }
+};
+
 module.exports = {
   getUserController,
   editUserController,
   updateUserController,
+  getUserIdeasController,
+  deleteUserController,
+  deshboardController,
 };

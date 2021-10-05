@@ -20,17 +20,24 @@ const {
   loginValidate,
 } = require("../validators/userValidate");
 
-router.get("/register", getRegisterController);
+//after login you cannot see login and register page;
+const { ensureGuest } = require("../middleware/authMiddleware");
 
-router.get("/login", getLoginController);
+router.get("/register", ensureGuest, getRegisterController);
+
+router.get("/login", ensureGuest, getLoginController);
 
 router.get("/logout", getLogoutController);
 
 router.post(
   "/register",
+  ensureGuest,
   reginterValidators(),
   registerValidate,
   postRegisterController
+  // (req, res) => {
+  //   console.log(req.body, "user body");
+  // }
 );
 
 //post login controller
@@ -39,6 +46,7 @@ router.post(
 //using passport for login controller
 router.post(
   "/login",
+  ensureGuest,
   loginValidators(),
   loginValidate,
   passport.authenticate("local", {
@@ -51,6 +59,7 @@ router.post(
 //for google route;
 router.get(
   "/google",
+  ensureGuest,
   passport.authenticate("google", { scope: ["profile", "email"] })
 );
 

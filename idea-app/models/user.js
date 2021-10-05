@@ -1,6 +1,8 @@
 const mongoose = require("mongoose");
 const { Schema } = mongoose;
 const bcrypt = require("bcryptjs");
+//idea schema;
+const Idea = require("./idea");
 
 const userSchema = new Schema({
   googleId: {
@@ -10,15 +12,15 @@ const userSchema = new Schema({
     type: String,
     required: true,
     trim: true,
-    maxLength: 20,
     minLength: 2,
+    maxLength: 20,
   },
   lastName: {
     type: String,
     required: true,
     trim: true,
-    maxLength: 20,
     minLength: 2,
+    maxLength: 20,
   },
   email: {
     type: String,
@@ -48,8 +50,13 @@ const userSchema = new Schema({
       },
     },
   },
+  role: {
+    type: Number,
+    default: 0,
+  },
 });
 
+//before save hashed password
 userSchema.pre("save", async function (next) {
   if (this.isModified("password")) {
     const salt = bcrypt.genSaltSync(10);
@@ -58,6 +65,28 @@ userSchema.pre("save", async function (next) {
     next();
   }
   next();
+});
+
+//deelte account
+// all ideas delete after deleting account for perticular user
+userSchema.pre("remove", async function (next) {
+  // console.log(this, "this");
+  const user = this;
+  const id = user?._id;
+  await Idea.deleteMany({ "user.id": id });
+  console.log("Delete successfully");
+  next();
+});
+
+//get idea array by perticular user;
+
+userSchema.virtual("ideas", {
+  ref: "Idea", // The model to use
+  localField: "_id", // Find people where `localField`
+  foreignField: "user.id", // is equal to `foreignField`
+  // If `justOne` is true, 'members' will be a single doc as opposed to
+  // an array. `justOne` is false by default.
+  justOne: false,
 });
 
 const User = mongoose.model("User", userSchema);

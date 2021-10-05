@@ -39,6 +39,7 @@ const userRoute = require("./route/userRoute");
 const commentsRoute = require("./route/commentsRoute");
 const pageRoute = require("./route/pageRoute");
 const authRoute = require("./route/authRoute");
+const categoryRoute = require("./route/categoryRoute");
 
 // error middleware import
 
@@ -96,9 +97,11 @@ app.use(passport.session());
 
 //connect flash middleware for showing message
 app.use(flash());
+app.use(express.json());
 
 //request method
 app.use(methodOverride("_method"));
+
 app.use(express.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, "public")));
 app.use(morgan("dev"));
@@ -129,10 +132,12 @@ app.use(morgan("dev"));
 // });
 
 app.use((req, res, next) => {
+  // console.log(req, "req");
   // res.locals.user = req.session.user || null;
   res.locals.user = req?.user || null;
   res.locals.user_id = req?.user?._id || null;
   res.locals.firstName = req?.user?.firstName || null;
+  res.locals.isAdmin = req?.user?.role || 0;
   res.locals.success_msg = req.flash("success_msg");
   res.locals.error_msg = req.flash("error_msg");
   res.locals.error = req.flash("error");
@@ -145,6 +150,7 @@ app.use((req, res, next) => {
 app.use("/auth", authRoute);
 app.use("/ideas", ideaRoute);
 app.use("/users", userRoute);
+app.use("/categories", categoryRoute);
 app.use("/ideas/:id/comments", commentsRoute);
 app.use(pageRoute);
 

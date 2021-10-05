@@ -92,6 +92,11 @@ const ideaSchema = new Schema(
       },
       firstName: String,
     },
+    categories: [
+      {
+        categoryName: String,
+      },
+    ],
   },
   {
     toObject: {

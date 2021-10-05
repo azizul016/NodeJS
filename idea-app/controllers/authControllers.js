@@ -1,5 +1,6 @@
 const User = require("../models/user");
 const bcrypt = require("bcryptjs");
+const _ = require("lodash");
 
 //for registration get method
 const getRegisterController = (req, res) => {
@@ -19,10 +20,30 @@ const getLoginController = (req, res) => {
 
 //registration post method
 const postRegisterController = async (req, res) => {
+  // console.log(req.body, "req.body");
+
+  const pickedValue = _.pick(req.body, [
+    "firstName",
+    "lastName",
+    "email",
+    "password",
+  ]);
+
+  // console.log(pickedValue, "pickedValue");
+
+  // const pickedValue = _.pick(req?.body, [
+  //   "firstName",
+  //   "lastName",
+  //   "email",
+  //   "password",
+  // ]);
+
   const user = new User({
-    ...req.body,
+    // ...req.body,
     // allowComments,
+    ...pickedValue,
   });
+  // console.log(user, "user");
   await user.save();
   req.flash("success_msg", "Registration Successfully");
   return res.redirect("/auth/login");

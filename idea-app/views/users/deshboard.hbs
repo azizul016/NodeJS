@@ -1,0 +1,34 @@
+<div class="row">
+  <div class="col-md-3">
+    {{>_deshboardPanel.left}}
+  </div>
+  <div class="col-md-9">
+ <table class="table table-bordered table-striped">
+  <thead>
+    <tr>
+      <th class='text-center'>Title</th>
+      <th class='text-center'>Date</th>
+      <th class='text-center'>Status</th>
+      <th class='text-center'>Edit</th>
+      <th class='text-center'>Delete</th>
+    </tr>
+  </thead>
+  <tbody>
+
+   {{#each ideas}}
+        <tr>
+            <td><a href="/ideas/{{_id}}">{{title}}</a></td>
+            <td class='text-center'>{{formatDate createdAt 'dd--MM-yyyy'}}</td>
+            <td class='text-center'>{{status}}</td>
+            <td class='text-center'> <a href="/ideas/{{_id}}/edit" class="btn"><i class="fas fa-pencil-alt"></i></a></td>
+             <form action="/ideas/{{_id}}?_method=DELETE" method="POST">
+                <td class='text-center'><button class="btn me-5"><i class="fas fa-trash-alt"></i></button></td>
+             </form>
+        </tr>
+  {{/each}}
+
+  </tbody>
+</table>
+
+  </div>
+</div>

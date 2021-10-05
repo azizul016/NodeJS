@@ -1,10 +1,78 @@
-{{#each ideas}}
-  <div class="card my-3">
-    <div class="card-body">
-      <h5 class="card-title">{{title}}</h5>
-      <div class="card-text">{{{trancateContent description 30}}}</div>
-      <br />
-      <a href="/ideas/{{_id}}" class="btn btn-primary">Read More</a>
+<div class="row">
+  <div class="col-md-9 bg-danger">
+      {{#if userRef}}
+        <h1>All Ideas By <span>{{firstName}}</span> </h1>
+
+        {{!-- //using partials file --}}
+        {{>_ideas-index}}
+
+        {{!-- {{#each ideas}}
+          <div class="card my-3">
+            <div class="card-body">
+              <h5 class="card-title">{{title}}</h5>
+              <div class="card-text">{{{trancateContent description 30}}}</div>
+              <br />
+              <a href="/ideas/{{_id}}" class="btn btn-primary">Read More</a>
+            </div>
+          </div>
+        {{/each}} --}}
+        
+
+      {{else if categoryName}}
+        <h1>All Ideas By <span>{{categoryName}}</span> </h1>
+        
+        {{!-- //using partials file --}}
+          {{>_ideas-index}}
+
+        {{!-- {{#each ideas}}
+          <div class="card my-3">
+            <div class="card-body">
+              <h5 class="card-title">{{title}}</h5>
+              <div class="card-text">{{{trancateContent description 30}}}</div>
+              <br />
+              <a href="/ideas/{{_id}}" class="btn btn-primary">Read More</a>
+            </div>
+          </div>
+        {{/each}} --}}
+
+      {{else}}
+
+        {{!-- //using partials file --}}
+
+        {{>_ideas-index}}
+
+        {{!-- {{#each ideas}}
+          <div class="card my-3">
+            <div class="card-body">
+              <h5 class="card-title">{{title}}</h5>
+              <div class="card-text">{{{trancateContent description 30}}}</div>
+              <br />
+              <a href="/ideas/{{_id}}" class="btn btn-primary">Read More</a>
+            </div>
+          </div>
+        {{/each}} --}}
+      {{/if}}
+  </div>
+
+  <div class="col-md-3">
+    <div>
+      <p>Categoryafas:</p>
+        {{#each categories}}
+          <a href="/categories/{{category}}/ideas"><span class="badge bg-primary" style="cursor:pointer">{{category}}</span></a>
+        {{/each}}
+    </div>
+    <div class="my-5">
+      <p>Tags:</p>
+        {{#each ideaTags}}
+         {{#each tags}}
+         <span class="badge bg-primary" style="cursor:pointer">{{this}}</span>
+        {{/each}}
+        {{/each}}
     </div>
   </div>
-{{/each}}
+</div>
+
+
+
+
+

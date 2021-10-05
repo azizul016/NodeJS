@@ -63,4 +63,32 @@ const checkCommentOwnership = async (req, res, next) => {
   }
 };
 
-module.exports = { isAuth, checkIdeaOwnership, checkCommentOwnership };
+//check login or logout and show login or register page;
+const ensureGuest = async (req, res, next) => {
+  // console.log(req, "req");
+  if (req.isAuthenticated()) {
+    return res.redirect("/users/me/ideas");
+  } else {
+    next();
+  }
+};
+
+//check super admin;
+const ensureAdmin = async (req, res, next) => {
+  // console.log(req?.user, "req");
+  if (req?.user?.role === 1) {
+    next();
+    return;
+  } else {
+    req.flash("error_msg", "You are not allowed to perform this action");
+    return res.redirect("back");
+  }
+};
+
+module.exports = {
+  isAuth,
+  checkIdeaOwnership,
+  checkCommentOwnership,
+  ensureGuest,
+  ensureAdmin,
+};

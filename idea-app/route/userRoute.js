@@ -14,6 +14,9 @@ const {
   getUserController,
   editUserController,
   updateUserController,
+  getUserIdeasController,
+  deleteUserController,
+  deshboardController,
 } = require("../controllers/userControllers");
 
 //home page route
@@ -30,5 +33,16 @@ router.put(
   updateValidate,
   updateUserController
 );
+
+//deshboard controller;
+router.get("/me/ideas", deshboardController);
+
+//get all ideas by perticular user;
+//:id/ideas
+router.get("/:id/ideas", getUserIdeasController);
+
+//delete user account;
+//me;
+router.delete("/me", isAuth, deleteUserController);
 
 module.exports = router;

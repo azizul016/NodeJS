@@ -9,10 +9,24 @@ const {
 // require model;
 const Idea = require("../models/idea");
 
+//category model;
+const { Category } = require("../models/category");
+
 //get all idea controller
 const getIdeaController = async (req, res, next) => {
-  // .lean() using for handlebars error problem for solve
+  //get all ideas;
   const ideas = await Idea.find().lean();
+
+  //filtering only public ideas;
+  const filteringPublicIdeas = ideas?.filter(
+    (eachIdea) => eachIdea.status === "public"
+  );
+
+  // .lean() using for handlebars error problem for solve
+  // const ideas = await Idea.find({ status: "public" }).lean();
+
+  //get all categoryes
+  const categories = await Category.find().lean();
   // const contexts = ideas.map((idea) =>
   //   generateIdeaDoc(
   //     idea._id,
@@ -23,19 +37,24 @@ const getIdeaController = async (req, res, next) => {
   //     idea.tags
   //   )
   // );
-  const contexts = ideas.map((idea) => generateIdeaDoc(idea));
+  // console.log(ideas, "ideas");
+  const contexts = filteringPublicIdeas.map((idea) => generateIdeaDoc(idea));
   return res.render("ideas/index", {
     path: "/ideas",
     ideas: contexts,
+    ideaTags: ideas,
+    categories: categories,
     title: "All Ideas",
   });
 };
 
 ///show form to add idea controller
-const addIdeaController = (req, res, next) => {
+const addIdeaController = async (req, res, next) => {
+  const categories = await Category.find().lean();
   return res.render("ideas/new", {
     title: "Add Idea",
     path: "/ideas/new",
+    categories,
   });
 };
 
@@ -50,10 +69,20 @@ const postIdeaController = async (req, res) => {
         id: req?.user?._id,
         firstName: req?.user?.firstName,
       },
+      categories: [],
       // allowComments,
     });
 
-    // console.log(idea, "idea");
+    if (Array.isArray(req?.body?.categories)) {
+      for (let i = 0; i < req?.body?.categories?.length; i++) {
+        const categoryName = req?.body?.categories[i];
+        idea?.categories?.push({ categoryName });
+      }
+    } else {
+      idea?.categories?.push({ categoryName: req?.body?.categories });
+    }
+
+    // console.log(idea, "idea adding");
     await idea?.save();
     //redirect idea
     // console.log("testing purpose");
@@ -73,6 +102,7 @@ const editIdeaController = async (req, res, next) => {
   }
 
   const idea = await Idea.findById(id);
+  const categories = await Category.find().lean();
 
   if (idea) {
     // const singleIdea = generateIdeaDoc(
@@ -86,9 +116,40 @@ const editIdeaController = async (req, res, next) => {
 
     const singleIdea = generateIdeaDoc(idea);
 
+    const ideaCategories = [];
+
+    ///generating array of object (only with matched categories category and idea category)
+
+    singleIdea?.categories?.filter(({ categoryName }) => {
+      categories?.map(({ category }) => {
+        if (category === categoryName) {
+          ideaCategories.push({ category, categoryName });
+        }
+      });
+    });
+
+    //modifying the existing array of object (adding the categories category that is not part of existing array)
+
+    categories?.map((e, i) => {
+      if (
+        e?.category != (ideaCategories[i] ? ideaCategories[i].category : "")
+      ) {
+        ideaCategories.push({
+          category: e.category,
+          categoryName: null,
+        });
+      }
+    });
+
+    //compare two array and finding an unique category array;
+    const uniqCatagoryArr = _.uniqBy(ideaCategories, "category");
+
+    console.log(uniqCatagoryArr, "uniqCatagoryArr");
+
     return res.render("ideas/edit", {
       title: "Edit Idea",
       idea: singleIdea,
+      ideaCategories: uniqCatagoryArr,
     });
   } else {
     return res.status(404).render("pages/notFound");
@@ -98,11 +159,23 @@ const editIdeaController = async (req, res, next) => {
 //update idea controller
 const updateIdeaController = async (req, res, next) => {
   const id = req.params.id;
+  let categories = [];
   req.body.tags = req.body.tags.split(",");
 
   if (!mongoose.Types.ObjectId.isValid(id)) {
     return res.status(400).render("pages/notFound");
   }
+
+  if (Array.isArray(req?.body?.categories)) {
+    for (let i = 0; i < req?.body?.categories?.length; i++) {
+      const categoryName = req?.body?.categories[i];
+      categories?.push({ categoryName });
+    }
+  } else {
+    categories?.push({ categoryName: req?.body?.categories });
+  }
+
+  req.body.categories = categories;
 
   const pickedValue = _.pick(req.body, [
     "title",
@@ -110,6 +183,7 @@ const updateIdeaController = async (req, res, next) => {
     "status",
     "allowComments",
     "tags",
+    "categories",
   ]);
 
   const updatedIdea = await Idea.findByIdAndUpdate(id, pickedValue);

@@ -28,6 +28,19 @@
   </div>
 {{!-- tag finish --}}
 
+  {{!-- for categoriies --}}
+  <div class="my-3">
+    <label for="Categories" class="form-label">Categories</label>
+    <select name="categories" multiple class="form-control" id="categories">
+      {{#each ideaCategories}}
+          <option value="{{category}}" {{compareValues category categoryName}}>
+            {{category}}
+          </option>
+      {{/each}}
+    </select>
+  </div>
+{{!-- categoriies finish --}}
+
 
   <div class="mb-3 form-check">
     <input

@@ -6,19 +6,36 @@
           <div class="card-text">{{{idea.description}}}</div>
       </div>
       <div class="ml-2" style="text-align: center; border: 2px dashed #f69c55; padding: 15px">
-          <span class="card-title">Written by: <strong>{{idea.user.firstName}}</strong></sp>
+          <span class="card-title">Written by: <strong><a href="/users/{{idea.user.id}}/ideas">{{idea.user.firstName}}</a></strong></sp>
           <div class="card-text"> <p>{{formatDate idea.createdAt 'dd--MM-yyyy'}}</p> </div>
       </div>
     </div>
 
-    <div class="my-3">
-      {{!-- for tag array show start --}}
-      <em>Tags:</em>
-      {{#each idea.tags}}
-        <span class="badge bg-primary">{{this}}</span>
-      {{/each}}
+
+    <div class="d-flex align-item-center justify-content-between my-3">
+      
+          {{!-- for tag array show start --}}
+        <div class="my-3">
+          <em>Tags:</em>
+          {{#each idea.tags}}
+            <span class="badge bg-primary">{{this}}</span>
+          {{/each}}
+        </div>
+          {{!-- for tag array show end --}}
+
+
+          {{!-- for category array show start --}}
+        <div class="my-3">
+          <em>Category:</em>
+          {{#each idea.categories}}
+            <a href="/categories/{{categoryName}}/ideas"><span class="badge bg-primary" style="cursor:pointer">{{categoryName}}</span></a>
+          {{/each}}
+        </div>
+          {{!-- for category array show end --}}
+
+
     </div>
-      {{!-- for tag array show end --}}
+
 
 
 {{!-- if login then show "edit" and "delete" button start  --}}

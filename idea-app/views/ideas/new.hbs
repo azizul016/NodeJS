@@ -26,6 +26,17 @@
     </select>
   </div>
 
+  {{!-- for category start --}}
+  <div class="mb-3">
+    <label for="categories">Category</label>
+    <select for="categories" multiple="multiple" class="form-select" name="categories" id="categories">
+       {{#each categories}}
+          <option value={{category}} >{{category}}</option>
+      {{/each}}
+    </select>
+  </div>
+  {{!-- for category end --}}
+
 {{!-- for tags --}}
   <div class="my-3">
     <label for="tags" class="form-label">Tags</label>
