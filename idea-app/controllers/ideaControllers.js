@@ -270,6 +270,73 @@ const getSingleIdeaController = async (req, res, next) => {
   }
 };
 
+//add like and remove like controller;
+const postLikeController = async (req, res, next) => {
+  const id = req.params.id;
+  const userId = req.body.userId;
+
+  const idea = await Idea.findById(id);
+  if (idea) {
+    if (!idea?.likes?.includes(userId)) {
+      idea?.likes?.push(userId);
+      await idea.save();
+      return res.send({
+        success: true,
+        message: "You Liked The Idea",
+      });
+    } else {
+      const likes = idea?.likes?.filter(
+        (like) => like?.toString() !== userId?.toString()
+      );
+      idea.likes = likes;
+      await idea.save();
+      return res.send({
+        success: true,
+        message: "You liked is removed the idea",
+      });
+    }
+  } else {
+    return res
+      .status(404)
+      .send({ success: false, message: "Your idea is not like by this user" });
+  }
+};
+
+//like count controller;
+const getLikeCountController = async (req, res, next) => {
+  // console.log(req?.params?.id, "params id");
+
+  const id = req?.params?.id;
+
+  const idea = await Idea.findById(id);
+
+  // console.log(idea, "idea");
+
+  if (idea) {
+    let likeCount = idea?.likes?.length;
+    return res.status(200).send({ success: true, data: likeCount });
+  } else {
+    return res.status(404).send({
+      success: false,
+      message: "Your Idea is not found to be get counted",
+    });
+  }
+};
+//comment count controller;
+const getCommentCountController = async (req, res, next) => {
+  const id = req?.params?.id;
+  const idea = await Idea.findById(id).populate("comments").lean();
+  if (idea) {
+    let commentCount = idea?.comments?.length || 0;
+    return res.status(200).send({ success: true, data: commentCount });
+  } else {
+    return res.status(404).send({
+      success: false,
+      message: "Your Idea is not found to be get counted",
+    });
+  }
+};
+
 module.exports = {
   getIdeaController,
   addIdeaController,
@@ -278,4 +345,7 @@ module.exports = {
   updateIdeaController,
   deleteIdeaController,
   getSingleIdeaController,
+  postLikeController,
+  getLikeCountController,
+  getCommentCountController,
 };

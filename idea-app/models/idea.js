@@ -97,6 +97,11 @@ const ideaSchema = new Schema(
         categoryName: String,
       },
     ],
+    likes: [
+      {
+        type: mongoose.Types.ObjectId,
+      },
+    ],
   },
   {
     toObject: {

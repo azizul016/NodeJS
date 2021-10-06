@@ -30,11 +30,12 @@ const comparePath = (lPath, rPath) => {
 
 // selected for new and edit page in dropdown
 const compareValues = (value1, value2) => {
-  console.log(value1, value2, "for value check");
+  // console.log(value1, value2, "for value check");
   return value1 === value2 && "selected";
 };
 
 const trancateContent = (content, num) => {
+  // console.log(content.length, num, "for content check");
   if (content.length < num) return content;
   return content.slice(0, num) + "...";
 };

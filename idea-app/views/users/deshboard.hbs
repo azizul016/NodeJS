@@ -1,8 +1,19 @@
+
+
+
+
 <div class="row">
   <div class="col-md-3">
     {{>_deshboardPanel.left}}
   </div>
   <div class="col-md-9">
+    <div class="text-center mb-3"> 
+      {{#if isAdmin}}
+      <h5>Welcome to <strong>Admin</strong> </h5>
+      {{else}}
+      <h5>Welcome to <strong>firstName</strong> </h5>
+      {{/if}}
+    </div>
  <table class="table table-bordered table-striped">
   <thead>
     <tr>

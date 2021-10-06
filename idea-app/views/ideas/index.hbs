@@ -1,5 +1,5 @@
 <div class="row">
-  <div class="col-md-9 bg-danger">
+  <div class="col-md-9">
       {{#if userRef}}
         <h1>All Ideas By <span>{{firstName}}</span> </h1>
 
@@ -55,8 +55,8 @@
   </div>
 
   <div class="col-md-3">
-    <div>
-      <p>Categoryafas:</p>
+    <div class="mt-5">
+      <p>Category:</p>
         {{#each categories}}
           <a href="/categories/{{category}}/ideas"><span class="badge bg-primary" style="cursor:pointer">{{category}}</span></a>
         {{/each}}
@@ -65,14 +65,9 @@
       <p>Tags:</p>
         {{#each ideaTags}}
          {{#each tags}}
-         <span class="badge bg-primary" style="cursor:pointer">{{this}}</span>
+         <span class="badge bg-primary">{{this}}</span>
         {{/each}}
         {{/each}}
     </div>
   </div>
 </div>
-
-
-
-
-

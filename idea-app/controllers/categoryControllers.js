@@ -69,7 +69,7 @@ const getCategoryNameByIdeaController = async (req, res) => {
         return matchedIdea.push(eachIdea);
     });
   });
-  // console.log(matchedIdea, "matchedIdea");
+  // console.log(ideas, "ideas");
 
   //vertural field
   // const allIdeasByCategory = await Category.findOne({ category })

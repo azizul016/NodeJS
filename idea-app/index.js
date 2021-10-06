@@ -4,7 +4,7 @@ require("dotenv").config({ path: "./config/keys.env" });
 require("express-async-errors");
 const exphbs = require("express-handlebars");
 const methodOverride = require("method-override");
-const morgan = require("morgan");
+// const morgan = require("morgan");
 const path = require("path");
 //for cookies
 // const cookieParser = require("cookie-parser");\
@@ -104,7 +104,7 @@ app.use(methodOverride("_method"));
 
 app.use(express.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, "public")));
-app.use(morgan("dev"));
+// app.use(morgan("dev"));
 
 // const isAuth = function (req, res, next) {
 //   // Cookies that have not been signed

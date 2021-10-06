@@ -15,6 +15,9 @@ const {
   updateIdeaController,
   deleteIdeaController,
   getSingleIdeaController,
+  postLikeController,
+  getLikeCountController,
+  getCommentCountController,
 } = require("../controllers/ideaControllers");
 
 //login in middleware check;
@@ -47,5 +50,11 @@ router.delete("/:id", checkIdeaOwnership, isAuth, deleteIdeaController);
 
 //get single idea
 router.get("/:id", getSingleIdeaController);
+
+//add like and remove like
+//ideas/:id/likes
+router.post("/:id/likes", isAuth, postLikeController);
+router.get("/:id/likes", getLikeCountController);
+router.get("/:id/comments", getCommentCountController);
 
 module.exports = router;
