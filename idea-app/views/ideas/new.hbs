@@ -1,4 +1,4 @@
-<form action="/ideas" method="POST">
+<form action="/ideas" method="POST" enctype="multipart/form-data">
   <div class="mb-3">
     <label for="title" class="form-label">Title</label>
     <input type="text" class="form-control" name="title" id="title" {{#if idea.title}}
@@ -45,6 +45,20 @@
   </div>
 {{!-- tag finish --}}
 
+{{!-- image upload start --}}
+      <div class="mb-3">
+      <label for="ideaPicture" class="form-label">Idea Picture</label>
+      <input
+      type="file"
+      class="form-control"
+      id="ideaPicture"
+      placeholder="Idea Picture"
+      name="ideaPicture"
+      {{!-- {{#if userInput.email}} value="{{userInput.email}}" {{/if}} --}}
+      />
+          </div>
+{{!-- image upload end --}}
+
   <div class="mb-3 form-check">
     <input
       type="checkbox"
@@ -55,7 +69,7 @@
         checked = "true"
         {{/if}}
     />
-    <label class="form-check-label" for="allowComments">Check me out</label>
+    <label class="form-check-label" for="allowComments">ALlow Comments</label>
   </div>
   <button disabled type="submit" style="display:none">Add Idea</button>
   <button type="Add Idea" class="btn btn-primary">Submit</button>

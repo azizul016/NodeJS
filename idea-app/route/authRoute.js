@@ -9,15 +9,24 @@ const {
   postLoginController,
   getLogoutController,
   getGoogleController,
+  accountActivationController,
+  getForgetPasswordController,
+  postForgotPasswordController,
+  getResetPasswordController,
+  postResetPasswordController,
 } = require("../controllers/authControllers");
 
 const {
   reginterValidators,
   loginValidators,
+  forgetPasswordValidators,
+  resetPasswordValidators,
 } = require("../validators/userValidators");
 const {
   registerValidate,
   loginValidate,
+  forgetPasswordValidate,
+  resetPasswordValidate,
 } = require("../validators/userValidate");
 
 //after login you cannot see login and register page;
@@ -70,6 +79,34 @@ router.get(
     failureFlash: true,
   }),
   getGoogleController
+);
+
+//account active by email get route;
+///auth/active/:token;
+router.get("/active/:token", accountActivationController);
+
+//get forget password route;
+router.get("/forget-password", getForgetPasswordController);
+
+//password forget post route;
+router.post(
+  "/forget-password",
+  forgetPasswordValidators(),
+  forgetPasswordValidate,
+  postForgotPasswordController
+);
+
+//reset password controller
+///auth/:reset-passeword/:token
+router.get("/reset-password/:token", getResetPasswordController);
+
+//reset password controller
+///auth/:reset-passeword/:token
+router.post(
+  "/reset-password",
+  resetPasswordValidators(),
+  resetPasswordValidate,
+  postResetPasswordController
 );
 
 module.exports = router;

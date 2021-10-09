@@ -4,6 +4,13 @@
   </div>
   <div class="col-md-7">
    <ul class="list-unstyled mb-3">
+
+     {{#if user.imageURL}}
+       <img src="{{user.imageURL}}" alt="{{user.firstName}}">
+     {{else if user.image}}
+       <img src="/user/{{user.image}}" alt="{{user.firstName}}">
+     {{/if}}
+
      <li><em>Profile Picture:</em><span class="m-3">Please Click Edit Profile to Upload Profile Picture</span></li>
      <li class='my-3'><em  class="me-2">FirstName :</em>{{user.firstName}}</li>
      <li><em class="me-2">LastName :</em>{{user.lastName}}</li>

@@ -83,3 +83,12 @@
   border-color: red !important;
 } */
 /* profile dropdown list end */
+
+/* title position */
+.title-position {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) !important;
+  color: red;
+}

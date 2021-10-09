@@ -102,6 +102,7 @@ const ideaSchema = new Schema(
         type: mongoose.Types.ObjectId,
       },
     ],
+    image: String,
   },
   {
     toObject: {

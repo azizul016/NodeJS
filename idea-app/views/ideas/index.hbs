@@ -55,19 +55,24 @@
   </div>
 
   <div class="col-md-3">
-    <div class="mt-5">
-      <p>Category:</p>
-        {{#each categories}}
-          <a href="/categories/{{category}}/ideas"><span class="badge bg-primary" style="cursor:pointer">{{category}}</span></a>
-        {{/each}}
-    </div>
-    <div class="my-5">
-      <p>Tags:</p>
+    {{!-- {{#if categories}} --}}
+      <div class="mt-5">
+        <p>Category:</p>
+          {{#each categories}}
+            <a href="/categories/{{category}}/ideas"><span class="badge bg-primary" style="cursor:pointer">{{category}}</span></a>
+          {{/each}}
+      </div>
+    {{!-- {{/if}}
+    {{#if categories}} --}}
+        <div class="my-5">
+          <p>Tags:</p>
         {{#each ideaTags}}
          {{#each tags}}
          <span class="badge bg-primary">{{this}}</span>
         {{/each}}
         {{/each}}
     </div>
+    {{!-- {{/if}} --}}
+
   </div>
 </div>

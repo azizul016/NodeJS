@@ -6,6 +6,9 @@ const { addIdeaValidate } = require("../validators/addIdeaValidators");
 const { updateIdeaValidators } = require("../validators/updateIdeaValidators");
 const { ideaValidators } = require("../validators/ideaValidators");
 
+//multer require;
+const { ideaImageUpload } = require("../middleware/multer/multerConfig");
+
 //controllers import;
 const {
   getIdeaController,
@@ -30,7 +33,14 @@ router.get("/", getIdeaController);
 router.get("/new", isAuth, addIdeaController);
 
 //add idea;
-router.post("/", isAuth, ideaValidators(), addIdeaValidate, postIdeaController);
+router.post(
+  "/",
+  isAuth,
+  ideaImageUpload,
+  ideaValidators(),
+  addIdeaValidate,
+  postIdeaController
+);
 
 //show edit idea from;
 router.get("/:id/edit", isAuth, checkIdeaOwnership, editIdeaController);
@@ -39,6 +49,7 @@ router.get("/:id/edit", isAuth, checkIdeaOwnership, editIdeaController);
 router.put(
   "/:id",
   isAuth,
+  ideaImageUpload,
   checkIdeaOwnership,
   ideaValidators(),
   updateIdeaValidators,

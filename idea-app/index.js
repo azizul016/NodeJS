@@ -1,6 +1,8 @@
 const express = require("express");
-//.env file config
-require("dotenv").config({ path: "./config/keys.env" });
+//.env file config  if file is contain another file
+// require("dotenv").config({ path: "./config/keys.env" });
+//using main file;
+require("dotenv").config();
 require("express-async-errors");
 const exphbs = require("express-handlebars");
 const methodOverride = require("method-override");
@@ -29,6 +31,9 @@ const {
   comparePath,
   // compareValues,
 } = require("./helpers/hbs");
+
+//jwt token secrect key required;
+const { secretSession } = require("./config/key");
 
 //db connection;
 const { connectDB, url } = require("./playground/DBConnection.js");
@@ -71,11 +76,12 @@ app.set("view engine", ".hbs");
 
 //for cookies
 // app.use(cookieParser());
-
+// console.log(process.env.SECRET_SESSION, "process.env.SECRET_SESSION");
 //for session
 app.use(
   session({
-    secret: process.env.SECRET_SESSION,
+    // secret: "$2a$10$LPZvQWrXUNp5rgeZY9m3VeTJcirDExWJNNtiVIw7DPu041d3h",
+    secret: secretSession,
     resave: false,
     store: MongoStore.create({
       // url: url,
@@ -104,6 +110,9 @@ app.use(methodOverride("_method"));
 
 app.use(express.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, "public")));
+
+//public uploads file
+app.use(express.static(path.join(__dirname, "uploads")));
 // app.use(morgan("dev"));
 
 // const isAuth = function (req, res, next) {

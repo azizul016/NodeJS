@@ -4,6 +4,14 @@ const bcrypt = require("bcryptjs");
 //idea schema;
 const Idea = require("./idea");
 
+//image resize;
+const sharp = require("sharp");
+const fs = require("fs");
+const util = require("util");
+const deleteFilePromise = util.promisify(fs.unlink);
+
+// image resize
+
 const userSchema = new Schema({
   googleId: {
     type: String,
@@ -33,6 +41,8 @@ const userSchema = new Schema({
       message: "Please Give a valid email address",
     },
   },
+  image: String,
+  imageURL: String,
   password: {
     type: String,
     required: true,
@@ -54,6 +64,7 @@ const userSchema = new Schema({
     type: Number,
     default: 0,
   },
+  resetPasswardToken: String,
 });
 
 //before save hashed password
@@ -73,6 +84,14 @@ userSchema.pre("remove", async function (next) {
   // console.log(this, "this");
   const user = this;
   const id = user?._id;
+
+  const ideas = await Idea.find({ "user.id": id });
+  ideas.map((idea) => {
+    if (idea.image) {
+      deleteFilePromise(`./uploads/ideas/${idea.image}`);
+    }
+  });
+
   await Idea.deleteMany({ "user.id": id });
   console.log("Delete successfully");
   next();

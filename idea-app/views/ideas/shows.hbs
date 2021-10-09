@@ -1,8 +1,18 @@
 <div class="card mt-3">
   <div class="card-body">
+      <div class="position-relative">
+            <h5 class="card-title">
+            <span class="title-position">{{idea.title}}</span>
+            {{#if idea.image}}
+                <img src="/ideas/{{idea.image}}" alt="">
+            {{else}}
+              <img style="width:1080px; height:300px" src="https://i.ibb.co/vdypSGS/Windows-11-Default-Light-Wallpaper.jpg" alt="">
+            {{/if}}
+            </h5>
+        </div>
     <div class="d-flex align-item-center justify-content-between">
       <div style="width:80%">
-          <h5 class="card-title">{{idea.title}}</h5>
+        
           <div class="card-text" style="text-align:justify">{{{idea.description}}}</div>
 
     {{!-- like comment count start --}}

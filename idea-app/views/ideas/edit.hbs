@@ -1,4 +1,4 @@
-<form action="/ideas/{{idea._id}}?_method=PUT" method="POST">
+<form action="/ideas/{{idea._id}}?_method=PUT" method="POST" enctype="multipart/form-data">
   <div class="mb-3">
     <label for="title" class="form-label">Title</label>
     <input type="text" class="form-control" id="title" name="title" value="{{idea.title}}" />
@@ -40,6 +40,22 @@
     </select>
   </div>
 {{!-- categoriies finish --}}
+
+
+
+{{!-- image upload start --}}
+      <div class="mb-3">
+              <label for="ideaPicture" class="form-label">Idea Picture</label>
+              <input
+              type="file"
+              class="form-control"
+              id="ideaPicture"
+              placeholder="Idea Picture"
+              name="ideaPicture"
+              {{!-- {{#if userInput.email}} value="{{userInput.email}}" {{/if}} --}}
+              />
+      </div>
+{{!-- image upload end --}}
 
 
   <div class="mb-3 form-check">

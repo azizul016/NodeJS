@@ -1,6 +1,10 @@
 const express = require("express");
 const router = express.Router();
 
+const { imageUpload } = require("../middleware/multer/multerConfig");
+
+// console.log(imageUpload, "imageUpload");
+
 //login in middleware check;
 const { isAuth } = require("../middleware/authMiddleware");
 
@@ -29,6 +33,7 @@ router.get("/me/edit", isAuth, editUserController);
 router.put(
   "/me",
   isAuth,
+  imageUpload,
   updateUserValidators(),
   updateValidate,
   updateUserController

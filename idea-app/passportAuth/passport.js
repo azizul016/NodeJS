@@ -70,7 +70,10 @@ const googleStrategy = (passport) => {
             firstName: profile?.name?.givenName,
             lastName: profile?.name?.familyName,
             email: profile?.emails[0]?.value,
+            imageURL: profile?.photos[0]?.value,
           };
+
+          // console.log(profileToSave, "profileToSave");
 
           const user = await User.findOne({ googleId: profile?.id });
           if (user) {

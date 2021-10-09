@@ -3,7 +3,7 @@
          {{>_deshboardPanel.left}}
     </div>
     <div class="col-md-7">
-        <form action="/users/me?_method=PUT" method="POST">
+        <form action="/users/me?_method=PUT" method="POST" enctype="multipart/form-data">
 
             <div class="row">
                 <div class="col-md-8 offset-md-2">
@@ -50,10 +50,10 @@
                     <input
                     type="file"
                     class="form-control"
-                    id="profile"
+                    id="profilePicture"
                     placeholder="Profile Picture"
-                    name="profile"
-                    {{#if userInput.email}} value="{{userInput.email}}" {{/if}}
+                    name="profilePicture"
+                    {{!-- {{#if userInput.email}} value="{{userInput.email}}" {{/if}} --}}
                     />
                 </div>
                 

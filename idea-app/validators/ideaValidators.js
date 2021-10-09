@@ -1,4 +1,13 @@
 const { check } = require("express-validator");
+const imageTotalMineType = [
+  "image/webp",
+  "image/svg+xml",
+  "image/png",
+  "image/jpeg",
+  "image/gif",
+  "image/avif",
+  "image/apng",
+];
 
 const ideaValidators = () => {
   return [
@@ -21,6 +30,31 @@ const ideaValidators = () => {
       .withMessage("status must be public or private")
       .trim(),
     check("tags", "Idea Must Have One Tags").trim().isLength({ min: 1 }),
+
+    check("ideaPicture").custom((value, { req }) => {
+      const { file } = req;
+      // console.log(file, "file");
+      if (file) {
+        if (imageTotalMineType.includes(file.mimetype)) {
+          return true;
+        } else {
+          throw new Error(
+            `Image file only contains   "webp", "svg+xml", "png", "jpeg", "gif","avif","apng", file }`
+          );
+        }
+      } else {
+        return true;
+      }
+    }),
+
+    check("ideaPicture").custom((value, { req }) => {
+      const { file } = req;
+      if (file.size < 5242880) {
+        return true;
+      } else {
+        throw new Error("File size is not greater then 5md");
+      }
+    }),
   ];
 };
 

@@ -1,6 +1,16 @@
 const mongoose = require("mongoose");
 const _ = require("lodash");
 
+//image resize;
+const sharp = require("sharp");
+const fs = require("fs");
+const util = require("util");
+const deleteFilePromise = util.promisify(fs.unlink);
+
+//uuid require;
+const { uuidv4 } = require("../middleware/multer/multerConfig");
+const uniqueSuffix = Date.now() + "-" + uuidv4();
+
 //idea generate doc import
 const {
   generateIdeaDoc,
@@ -62,7 +72,6 @@ const addIdeaController = async (req, res, next) => {
 const postIdeaController = async (req, res) => {
   try {
     // req.body.tags = req?.body?.tags?.split(",");
-
     const idea = new Idea({
       ...req?.body,
       user: {
@@ -82,7 +91,20 @@ const postIdeaController = async (req, res) => {
       idea?.categories?.push({ categoryName: req?.body?.categories });
     }
 
-    // console.log(idea, "idea adding");
+    //image upload
+    if (req.file) {
+      let fileName = uniqueSuffix + req.file.originalname;
+      // set uploaded image in db with multer config
+      // pickedValue.image = req?.file?.filename;
+
+      //using multer and resize image by using sharp
+      await sharp(req?.file?.buffer)
+        .resize(1080, 300)
+        .toFile(`./uploads/ideas/${fileName}`);
+
+      idea.image = fileName;
+    }
+
     await idea?.save();
     //redirect idea
     // console.log("testing purpose");
@@ -158,6 +180,9 @@ const editIdeaController = async (req, res, next) => {
 
 //update idea controller
 const updateIdeaController = async (req, res, next) => {
+  // console.log(req.body, req.file, "updated data");
+  // return;
+
   const id = req.params.id;
   let categories = [];
   req.body.tags = req.body.tags.split(",");
@@ -165,6 +190,9 @@ const updateIdeaController = async (req, res, next) => {
   if (!mongoose.Types.ObjectId.isValid(id)) {
     return res.status(400).render("pages/notFound");
   }
+
+  //finding idea;
+  const idea = await Idea.findById(id).lean();
 
   if (Array.isArray(req?.body?.categories)) {
     for (let i = 0; i < req?.body?.categories?.length; i++) {
@@ -186,6 +214,23 @@ const updateIdeaController = async (req, res, next) => {
     "categories",
   ]);
 
+  //image upload
+  if (req.file) {
+    let fileName = uniqueSuffix + req.file.originalname;
+    // set uploaded image in db with multer config
+    // pickedValue.image = req?.file?.filename;
+
+    //using multer and resize image by using sharp
+    await sharp(req?.file?.buffer)
+      .resize(1080, 300)
+      .toFile(`./uploads/ideas/${fileName}`);
+
+    pickedValue.image = fileName;
+    if (idea.image) {
+      deleteFilePromise(`./uploads/ideas/${idea.image}`);
+    }
+  }
+
   const updatedIdea = await Idea.findByIdAndUpdate(id, pickedValue);
   if (updatedIdea) {
     req.flash("success_msg", "Idea Updated Successfully");
@@ -202,7 +247,14 @@ const deleteIdeaController = async (req, res, next) => {
   if (!mongoose.Types.ObjectId.isValid(id)) {
     return res.status(400).render("pages/notFound");
   }
+
   const idea = await Idea.findByIdAndDelete(id);
+  if (idea.image) {
+    // console.log(req.user.image, "image");
+    deleteFilePromise(`./uploads/ideas/${idea.image}`);
+    // console.log("image delete successfully");
+  }
+
   if (idea) {
     req.flash("success_msg", "Idea Delete Successfully");
     //redirect route
