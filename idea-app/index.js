@@ -18,6 +18,15 @@ const passport = require("passport");
 //connect flash for show message;
 const flash = require("connect-flash");
 
+// Node.js CSRF protection middlewar
+const csurf = require("csurf");
+
+// Helmet helps you secure your Express apps by setting various HTTP headers. It's not a silver bullet, but it can help!
+const helmet = require("helmet");
+
+// Express 4.x middleware which sanitizes user-supplied data to prevent MongoDB Operator Injection.
+const mongoSanitize = require("express-mongo-sanitize");
+
 //configuration passport
 //localStrategy decliear
 require("./passportAuth/passport").localStrategy(passport);
@@ -29,6 +38,7 @@ const {
   displayBtn,
   formatDate,
   comparePath,
+  comparePaginationPageValue,
   // compareValues,
 } = require("./helpers/hbs");
 
@@ -66,6 +76,7 @@ app.engine(
       displayBtn,
       formatDate,
       comparePath,
+      comparePaginationPageValue,
       // compareValues,
     },
   })
@@ -104,11 +115,20 @@ app.use(passport.session());
 //connect flash middleware for showing message
 app.use(flash());
 app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
+
+// Node.js CSRF protection middlewar use
+app.use(csurf());
+
+//set different header by helmet
+app.use(helmet());
+
+// sanitizes user data to prevent noscql injection attact.
+app.use(mongoSanitize());
 
 //request method
 app.use(methodOverride("_method"));
 
-app.use(express.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, "public")));
 
 //public uploads file
@@ -150,6 +170,9 @@ app.use((req, res, next) => {
   res.locals.success_msg = req.flash("success_msg");
   res.locals.error_msg = req.flash("error_msg");
   res.locals.error = req.flash("error");
+
+  // CSRF protection middlewar use globally
+  res.locals.csrfToken = req.csrfToken();
 
   // console.log(req.user, "req");
   next();

@@ -95,10 +95,28 @@ const updateUserController = async (req, res, next) => {
 };
 
 const getUserIdeasController = async (req, res) => {
+  const page = +req?.query?.page || 1;
+  const per_page_item = 1;
   //get all categoryes
   const categories = await Category.find().lean();
 
-  const user = await User.findById(req?.params?.id).populate("ideas").lean();
+  const user = await User.findById(req?.params?.id)
+    .lean()
+    .populate({
+      path: "ideas",
+      options: {
+        sort: {
+          createdAt: -1,
+        },
+      },
+      //if you want only title and description field;
+      // select:{
+      //   title:1,
+      //   description:1,
+      // }
+      // or
+      // select : "title description"
+    });
 
   //duplicate check
   // let modifyTagArray = [];
@@ -113,19 +131,37 @@ const getUserIdeasController = async (req, res) => {
   //   }
   //   // element.map()
   // }
-
-  // console.log(user, "user");
-  const modifyUser = user?.ideas?.filter((idea) => idea.status === "public");
-  // console.log(modifyUser, "modifyUser");
   if (user) {
+    // console.log(user, "user");
+    const modifyUser = user?.ideas?.filter((idea) => idea.status === "public");
+
+    //pagination start
+    const userPublicIdeaCount = modifyUser.length;
+    const userPublicIdeaToPass = modifyUser.splice(
+      (page - 1) * per_page_item,
+      per_page_item
+    );
+
+    //pagination end
+
+    // console.log(modifyUser, "modifyUser");
+
     return res.render("ideas/index", {
       title: `All Ideas By ${user?.firstName}`,
-      ideas: modifyUser,
+      ideas: userPublicIdeaToPass,
       // ideas: user?.ideas,
       firstName: user?.firstName,
       userRef: true,
       ideaTags: user?.ideas,
       categories: categories,
+      //pagination data;
+      currentPage: page,
+      previousPage: page - 1,
+      nextPage: page + 1,
+      hasPreviousPage: page > 1,
+      hasNextPage: page * per_page_item < userPublicIdeaCount,
+      lastPage: Math.ceil(userPublicIdeaCount / per_page_item),
+      userId: user?._id,
     });
   } else {
     return res.status(404).render("pages/notFound", {

@@ -6,6 +6,9 @@ const likeBtn = document.querySelector(".like-btn");
 const likeCount = document.querySelector(".like-count");
 const commentCount = document.querySelector(".comment-count");
 const userId = document.querySelector(".user-id");
+const token = document
+  .querySelector('meta[name="csrf-token"]')
+  .getAttribute("content");
 
 //common show message;
 const showMessage = (info) => {
@@ -32,6 +35,7 @@ const addCategory = async (data) => {
       body: JSON.stringify(data),
       headers: {
         "Content-type": "application/json; charset=UTF-8",
+        "CSRF-Token": token,
       },
     });
     return await response.json();
@@ -66,6 +70,9 @@ const showCategory = (categories) => {
 const deleteCategory = async ({ categoryName }) => {
   try {
     const response = await fetch(`/categories/${categoryName}`, {
+      headers: {
+        "CSRF-Token": token, // <-- is the csrf token as a header
+      },
       method: "DELETE",
     });
     return await response.json();
@@ -82,6 +89,7 @@ const addLike = async (id, userId) => {
       body: JSON.stringify({ userId }),
       headers: {
         "Content-type": "application/json; charset=UTF-8",
+        "CSRF-Token": token,
       },
     });
     return await response.json();
@@ -263,12 +271,14 @@ async function showAllLikes() {
 async function showAllComment() {
   let ideaId;
   try {
-    ideaId = likeBtn.dataset.id;
-    const commentResult = await getCommentCount(ideaId);
-    if (commentResult.success) {
-      return showCommnetCount(commentResult.data);
-    } else {
-      return showMessage(commentResult);
+    if (likeBtn) {
+      ideaId = likeBtn.dataset.id;
+      const commentResult = await getCommentCount(ideaId);
+      if (commentResult.success) {
+        return showCommnetCount(commentResult.data);
+      } else {
+        return showMessage(commentResult);
+      }
     }
   } catch (error) {
     console.log(error);

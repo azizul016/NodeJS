@@ -45,11 +45,14 @@ const deleteCategoryController = async (req, res) => {
 
 //get all ideas that creating by samilar category;
 const getCategoryNameByIdeaController = async (req, res) => {
+  const page = +req?.query?.page || 1;
+  const per_page_item = 1;
+
   // console.log(req.params.categoryName, "category name");
   const category = req.params.categoryName;
 
   //get all ideas;
-  const ideas = await Idea.find().lean();
+  const ideas = await Idea.find().lean().sort({ createdAt: -1 });
 
   //get all categoryes
   const categories = await Category.find().lean();
@@ -83,22 +86,41 @@ const getCategoryNameByIdeaController = async (req, res) => {
   const filterIdeasByStatus = matchedIdea?.filter(
     (status) => status.status === "public"
   );
+  // console.log(filterIdeasByStatus, "status");
+  //pagination start
+  const categoryPublicIdeaCount = filterIdeasByStatus.length;
+  const categoryPublicIdeaToPass = filterIdeasByStatus.splice(
+    (page - 1) * per_page_item,
+    per_page_item
+  );
+
+  // console.log(categoryPublicIdeaToPass, "category");
+  //pagination end
 
   // console.log(filterIdeasByStatus, "filterIdeasByStatus");
   if (filterIdeasByStatus?.length > 0) {
     return res.render("ideas/index", {
       title: `All Ideas Under ${findingCategory?.category}`,
       categoryName: findingCategory?.category,
-      ideas: filterIdeasByStatus,
+      ideas: categoryPublicIdeaToPass,
       ideaTags: ideas,
       categories: categories,
+      currentPage: page,
+      previousPage: page - 1,
+      nextPage: page + 1,
+      hasPreviousPage: page > 1,
+      hasNextPage: page * per_page_item < categoryPublicIdeaCount,
+      lastPage: Math.ceil(categoryPublicIdeaCount / per_page_item),
     });
     // console.log(allIdeasByCategory, "allIdeasByCategory");
     // return;
   } else {
-    return res.status(404).render("pages/notFound", {
-      title: "Not Found",
+    return res.status(200).render("ideas/noDataFound", {
+      title: "Data Not Found",
     });
+    // return res.status(404).render("pages/notFound", {
+    //   title: "Not Found",
+    // });
   }
 };
 

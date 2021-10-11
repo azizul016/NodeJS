@@ -25,7 +25,7 @@
     </tr>
   </thead>
   <tbody>
-
+ho
    {{#each ideas}}
         <tr>
             <td><a href="/ideas/{{_id}}">{{title}}</a></td>
@@ -33,7 +33,8 @@
             <td class='text-center'>{{status}}</td>
             <td class='text-center'> <a href="/ideas/{{_id}}/edit" class="btn"><i class="fas fa-pencil-alt"></i></a></td>
              <form action="/ideas/{{_id}}?_method=DELETE" method="POST">
-                <td class='text-center'><button class="btn me-5"><i class="fas fa-trash-alt"></i></button></td>
+                <input type="hidden" name="_csrf" value={{csrfToken}} />
+                <td class='text-center btn'><button class="btn me-5"><i class="fas fa-trash-alt"></i></button></td>
              </form>
         </tr>
   {{/each}}

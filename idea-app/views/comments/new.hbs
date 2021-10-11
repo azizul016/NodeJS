@@ -17,6 +17,7 @@
           class="form-control"
         ></textarea>
       </div>
+      <input type="hidden" name="_csrf" value={{csrfToken}} />
       <input type="submit" value="Add Comments" class="btn btn-primary mt-3" />
     </form>
     <a href="/ideas/{{idea._id}}" class="btn btn-info mt-3">Back To Idea</a>

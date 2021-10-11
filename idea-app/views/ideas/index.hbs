@@ -6,6 +6,38 @@
         {{!-- //using partials file --}}
         {{>_ideas-index}}
 
+          <ul class="pagination mt-3">
+            {{!-- showing first page all time start --}}
+            {{#if (comparePaginationPageValue currentPage 1) }}
+            {{#if (comparePaginationPageValue previousPage 1)}}
+              <li class="page-item"><a class="page-link" href="/users/{{userId}}/ideas?page=1">1</a></li>
+            {{/if}}
+            {{/if}}
+            {{!-- showing first page all time end --}}
+
+
+
+            {{#if hasPreviousPage}}
+              <li class="page-item"><a class="page-link" href="/users/{{userId}}/ideas?page={{previousPage}}">{{previousPage}}</a></li>
+            {{/if}}
+              <li class="page-item active" aria-current="page"><a class="page-link" href="/users/{{userId}}/ideas?page={{currentPage}}">{{currentPage}}</a></li>
+            {{#if hasNextPage}}
+              <li class="page-item"><a class="page-link" href="/users/{{userId}}/ideas?page={{nextPage}}">{{nextPage}}</a></li>
+            {{/if}}
+
+
+              {{!-- showing last page all time start --}}
+                {{#if lastPage}}
+                    {{#if (comparePaginationPageValue lastPage currentPage) }}
+                    {{#if (comparePaginationPageValue lastPage nextPage)}}
+                      <li class="page-item"><a class="page-link" href="/users/{{userId}}/ideas?page={{lastPage}}">{{lastPage}}</a></li>
+                    {{/if}}
+                    {{/if}}
+                {{/if}}
+            
+            {{!-- showing last page all time end --}}
+          </ul>
+
         {{!-- {{#each ideas}}
           <div class="card my-3">
             <div class="card-body">
@@ -24,6 +56,39 @@
         {{!-- //using partials file --}}
           {{>_ideas-index}}
 
+              <ul class="pagination mt-3">
+                  {{!-- showing first page all time start --}}
+                  {{#if (comparePaginationPageValue currentPage 1) }}
+                  {{#if (comparePaginationPageValue previousPage 1)}}
+                    <li class="page-item"><a class="page-link" href="/categories/{{categoryName}}/ideas?page=1">1</a></li>
+                  {{/if}}
+                  {{/if}}
+                  {{!-- showing first page all time end --}}
+
+
+
+                  {{#if hasPreviousPage}}
+                    <li class="page-item"><a class="page-link" href="/categories/{{categoryName}}/ideas?page={{previousPage}}">{{previousPage}}</a></li>
+                  {{/if}}
+                    <li class="page-item active" aria-current="page"><a class="page-link" href="/categories/{{categoryName}}/ideas?page={{currentPage}}">{{currentPage}}</a></li>
+                  {{#if hasNextPage}}
+                    <li class="page-item"><a class="page-link" href="/categories/{{categoryName}}/ideas?page={{nextPage}}">{{nextPage}}</a></li>
+                  {{/if}}
+
+
+                    {{!-- showing last page all time start --}}
+                     
+                    {{#if lastPage}}
+                        {{#if (comparePaginationPageValue lastPage currentPage) }}
+                        {{#if (comparePaginationPageValue lastPage nextPage)}}
+                          <li class="page-item"><a class="page-link" href="/categories/{{categoryName}}/ideas?page={{lastPage}}">{{lastPage}}</a></li>
+                    {{/if}}
+                  {{/if}}
+                    {{/if}}
+                  {{!-- showing last page all time end --}}
+                </ul>
+
+
         {{!-- {{#each ideas}}
           <div class="card my-3">
             <div class="card-body">
@@ -40,6 +105,39 @@
         {{!-- //using partials file --}}
 
         {{>_ideas-index}}
+
+         <ul class="pagination mt-3">
+            {{!-- showing first page all time start --}}
+            {{#if (comparePaginationPageValue currentPage 1) }}
+            {{#if (comparePaginationPageValue previousPage 1)}}
+              <li class="page-item"><a class="page-link" href="/ideas?page=1">1</a></li>
+            {{/if}}
+            {{/if}}
+            {{!-- showing first page all time end --}}
+
+
+
+            {{#if hasPreviousPage}}
+              <li class="page-item"><a class="page-link" href="/ideas?page={{previousPage}}">{{previousPage}}</a></li>
+            {{/if}}
+              <li class="page-item active" aria-current="page"><a class="page-link" href="/ideas?page={{currentPage}}">{{currentPage}}</a></li>
+            {{#if hasNextPage}}
+              <li class="page-item"><a class="page-link" href="/ideas?page={{nextPage}}">{{nextPage}}</a></li>
+            {{/if}}
+
+
+              {{!-- showing last page all time start --}}
+                {{#if lastPage}}
+                    {{#if (comparePaginationPageValue lastPage currentPage) }}
+                    {{#if (comparePaginationPageValue lastPage nextPage)}}
+                      <li class="page-item"><a class="page-link" href="/ideas?page={{lastPage}}">{{lastPage}}</a></li>
+                    {{/if}}
+                    {{/if}}
+                {{/if}}
+         
+            {{!-- showing last page all time end --}}
+          </ul>
+
 
         {{!-- {{#each ideas}}
           <div class="card my-3">
@@ -76,3 +174,6 @@
 
   </div>
 </div>
+
+ {{!-- {{>_pagination}} --}}
+ 

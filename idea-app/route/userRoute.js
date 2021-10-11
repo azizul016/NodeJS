@@ -35,7 +35,7 @@ router.put(
   isAuth,
   imageUpload,
   updateUserValidators(),
-  updateValidate,
+  // updateValidate,
   updateUserController
 );
 

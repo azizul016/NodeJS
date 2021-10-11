@@ -55,6 +55,10 @@ const formatDate = (date, toFormat) => {
   return format(date && date, toFormat);
 };
 
+const comparePaginationPageValue = (value1, value2) => {
+  return value1 !== value2;
+};
+
 module.exports = {
   compareValues,
   trancateContent,
@@ -62,4 +66,5 @@ module.exports = {
   formatDate,
   comparePath,
   compareValues,
+  comparePaginationPageValue,
 };

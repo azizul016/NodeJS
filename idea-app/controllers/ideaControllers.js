@@ -24,13 +24,25 @@ const { Category } = require("../models/category");
 
 //get all idea controller
 const getIdeaController = async (req, res, next) => {
-  //get all ideas;
+  const page = +req?.query?.page || 1;
+  const per_page_item = 1;
+  const totalPublicIdeaCount = await Idea.find({ status: "public" })
+    .lean()
+    .countDocuments();
+
+  //build the query;
+  const filteringPublicIdeas = await Idea.find({ status: "public" })
+    .skip((page - 1) * per_page_item)
+    .sort({ createdAt: -1 })
+    .limit(per_page_item);
+
+  // get all ideas;
   const ideas = await Idea.find().lean();
 
   //filtering only public ideas;
-  const filteringPublicIdeas = ideas?.filter(
-    (eachIdea) => eachIdea.status === "public"
-  );
+  // const filteringPublicIdeas = ideas?.filter(
+  //   (eachIdea) => eachIdea.status === "public"
+  // );
 
   // .lean() using for handlebars error problem for solve
   // const ideas = await Idea.find({ status: "public" }).lean();
@@ -55,6 +67,12 @@ const getIdeaController = async (req, res, next) => {
     ideaTags: ideas,
     categories: categories,
     title: "All Ideas",
+    currentPage: page,
+    previousPage: page - 1,
+    nextPage: page + 1,
+    hasPreviousPage: page > 1,
+    hasNextPage: page * per_page_item < totalPublicIdeaCount,
+    lastPage: Math.ceil(totalPublicIdeaCount / per_page_item),
   });
 };
 
@@ -166,7 +184,7 @@ const editIdeaController = async (req, res, next) => {
     //compare two array and finding an unique category array;
     const uniqCatagoryArr = _.uniqBy(ideaCategories, "category");
 
-    console.log(uniqCatagoryArr, "uniqCatagoryArr");
+    // console.log(uniqCatagoryArr, "uniqCatagoryArr");
 
     return res.render("ideas/edit", {
       title: "Edit Idea",
