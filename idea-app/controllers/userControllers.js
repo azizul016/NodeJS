@@ -96,7 +96,7 @@ const updateUserController = async (req, res, next) => {
 
 const getUserIdeasController = async (req, res) => {
   const page = +req?.query?.page || 1;
-  const per_page_item = 1;
+  const per_page_item = 5;
   //get all categoryes
   const categories = await Category.find().lean();
 

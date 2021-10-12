@@ -33,7 +33,7 @@ const ideaValidators = () => {
 
     check("ideaPicture").custom((value, { req }) => {
       const { file } = req;
-      // console.log(file, "file");
+      console.log(file, "file");
       if (file) {
         if (imageTotalMineType.includes(file.mimetype)) {
           return true;
@@ -49,10 +49,14 @@ const ideaValidators = () => {
 
     check("ideaPicture").custom((value, { req }) => {
       const { file } = req;
-      if (file.size < 5242880) {
-        return true;
+      if (file) {
+        if (file.size < 5242880) {
+          return true;
+        } else {
+          throw new Error("File size is not greater then 5md");
+        }
       } else {
-        throw new Error("File size is not greater then 5md");
+        return true;
       }
     }),
   ];

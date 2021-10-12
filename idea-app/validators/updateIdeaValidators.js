@@ -7,12 +7,12 @@ const updateIdeaValidators = (req, res, next) => {
 
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
-    // console.log(errors, "error");
+    console.log(errors, "error");
     return res.status(400).render("ideas/edit", {
       title: "Edit Idea",
       errMsg: errors.array()[0].msg,
       idea: {
-        id: id,
+        _id: id,
         title: req.body.title,
         description: req.body.description,
         allowComments,

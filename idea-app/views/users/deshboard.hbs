@@ -1,7 +1,4 @@
 
-
-
-
 <div class="row">
   <div class="col-md-3">
     {{>_deshboardPanel.left}}
@@ -21,21 +18,21 @@
       <th class='text-center'>Date</th>
       <th class='text-center'>Status</th>
       <th class='text-center'>Edit</th>
-      <th class='text-center'>Delete</th>
+      {{!-- <th class='text-center'>Delete</th> --}}
     </tr>
   </thead>
   <tbody>
-ho
+
+
    {{#each ideas}}
         <tr>
             <td><a href="/ideas/{{_id}}">{{title}}</a></td>
             <td class='text-center'>{{formatDate createdAt 'dd--MM-yyyy'}}</td>
             <td class='text-center'>{{status}}</td>
             <td class='text-center'> <a href="/ideas/{{_id}}/edit" class="btn"><i class="fas fa-pencil-alt"></i></a></td>
-             <form action="/ideas/{{_id}}?_method=DELETE" method="POST">
-                <input type="hidden" name="_csrf" value={{csrfToken}} />
-                <td class='text-center btn'><button class="btn me-5"><i class="fas fa-trash-alt"></i></button></td>
-             </form>
+             {{!-- <form action="/ideas/{{_id}}?_method=DELETE&_csrf={{csrfToken}}" method="POST">
+                <td class='text-center'><button class="btn me-5" type="submit"><i class="fas fa-trash-alt"></i></button></td>
+             </form> --}}
         </tr>
   {{/each}}
 

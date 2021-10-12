@@ -25,7 +25,7 @@ const { Category } = require("../models/category");
 //get all idea controller
 const getIdeaController = async (req, res, next) => {
   const page = +req?.query?.page || 1;
-  const per_page_item = 1;
+  const per_page_item = 5;
   const totalPublicIdeaCount = await Idea.find({ status: "public" })
     .lean()
     .countDocuments();

@@ -46,7 +46,7 @@ const deleteCategoryController = async (req, res) => {
 //get all ideas that creating by samilar category;
 const getCategoryNameByIdeaController = async (req, res) => {
   const page = +req?.query?.page || 1;
-  const per_page_item = 1;
+  const per_page_item = 5;
 
   // console.log(req.params.categoryName, "category name");
   const category = req.params.categoryName;

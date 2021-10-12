@@ -27,14 +27,18 @@
   </div>
 
   {{!-- for category start --}}
-  <div class="mb-3">
-    <label for="categories">Category</label>
-    <select for="categories" multiple="multiple" class="form-select" name="categories" id="categories">
-       {{#each categories}}
-          <option value={{category}} >{{category}}</option>
-      {{/each}}
-    </select>
-  </div>
+
+  {{#if categories}}
+      <div class="mb-3">
+          <label for="categories">Category</label>
+          <select for="categories" multiple="multiple" class="form-select" name="categories" id="categories">
+            {{#each categories}}
+                <option value={{category}} >{{category}}</option>
+            {{/each}}
+          </select>
+      </div>
+  {{/if}}
+  
   {{!-- for category end --}}
 
 {{!-- for tags --}}
@@ -72,5 +76,5 @@
     <label class="form-check-label" for="allowComments">ALlow Comments</label>
   </div>
   <button disabled type="submit" style="display:none">Add Idea</button>
-  <button type="Add Idea" class="btn btn-primary">Submit</button>
+  <button type="" class="btn btn-primary">Submit</button>
 </form>

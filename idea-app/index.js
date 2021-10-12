@@ -26,6 +26,7 @@ const helmet = require("helmet");
 
 // Express 4.x middleware which sanitizes user-supplied data to prevent MongoDB Operator Injection.
 const mongoSanitize = require("express-mongo-sanitize");
+const compression = require("compression");
 
 //configuration passport
 //localStrategy decliear
@@ -108,6 +109,9 @@ app.use(
   })
 );
 
+//compresor;
+app.use(compression());
+
 //passport middlewre;
 app.use(passport.initialize());
 app.use(passport.session());
@@ -121,7 +125,12 @@ app.use(express.urlencoded({ extended: false }));
 app.use(csurf());
 
 //set different header by helmet
-app.use(helmet());
+app.use(
+  helmet({
+    contentSecurityPolicy: false,
+  })
+);
+// app.use(helmet());
 
 // sanitizes user data to prevent noscql injection attact.
 app.use(mongoSanitize());
@@ -161,6 +170,8 @@ app.use(express.static(path.join(__dirname, "uploads")));
 // });
 
 app.use((req, res, next) => {
+  // CSRF protection middlewar use globally
+  res.locals.csrfToken = req.csrfToken();
   // console.log(req, "req");
   // res.locals.user = req.session.user || null;
   res.locals.user = req?.user || null;
@@ -171,10 +182,6 @@ app.use((req, res, next) => {
   res.locals.error_msg = req.flash("error_msg");
   res.locals.error = req.flash("error");
 
-  // CSRF protection middlewar use globally
-  res.locals.csrfToken = req.csrfToken();
-
-  // console.log(req.user, "req");
   next();
 });
 
