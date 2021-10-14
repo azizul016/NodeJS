@@ -1,6 +1,14 @@
 const mongoose = require("mongoose");
+const { localDB, cloudDB } = require("../config/key");
 
-const url = `mongodb://localhost:27017/ideas-app`;
+let url;
+// = `mongodb://localhost:27017/ideas-app`;
+
+if (process.env.NODE_ENV !== "production") {
+  url = cloudDB;
+} else if (process.env.NODE_ENV !== "development") {
+  url = localDB;
+}
 
 const connectDB = async () => {
   try {

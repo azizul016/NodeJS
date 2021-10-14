@@ -84,30 +84,38 @@ app.engine(
 );
 app.set("view engine", ".hbs");
 
+const sessionOptions = {
+  // secret: "$2a$10$LPZvQWrXUNp5rgeZY9m3VeTJcirDExWJNNtiVIw7DPu041d3h",
+  secret: secretSession,
+  resave: false,
+  store: MongoStore.create({
+    // url: url,
+    mongoUrl: url,
+    // ttl: 14 * 24 * 60 * 60, // = 14 days. Default
+  }),
+  saveUninitialized: false,
+  name: "my-app",
+  cookie: {
+    maxAge: 2 * 60 * 60 * 1000,
+    httpOnly: true,
+    sameSite: "lax",
+  },
+};
+
 //middleware
 
 //for cookies
 // app.use(cookieParser());
 // console.log(process.env.SECRET_SESSION, "process.env.SECRET_SESSION");
 //for session
-app.use(
-  session({
-    // secret: "$2a$10$LPZvQWrXUNp5rgeZY9m3VeTJcirDExWJNNtiVIw7DPu041d3h",
-    secret: secretSession,
-    resave: false,
-    store: MongoStore.create({
-      // url: url,
-      mongoUrl: url,
-      // ttl: 14 * 24 * 60 * 60, // = 14 days. Default
-    }),
-    saveUninitialized: false,
-    cookie: {
-      maxAge: 2 * 60 * 60 * 1000,
-      httpOnly: true,
-      sameSite: "lax",
-    },
-  })
-);
+app.use(session(sessionOptions));
+
+// console.log(app.get("env"));
+console.log(process.env.NODE_ENV);
+if (app.get("env") === "production") {
+  sessionOptions.proxy = true;
+  sessionOptions.cookie.secure = true;
+}
 
 //compresor;
 app.use(compression());
@@ -185,6 +193,8 @@ app.use((req, res, next) => {
   next();
 });
 
+// console.log(process.env.NODE_ENV, "development");
+
 //route declear ;
 app.use("/auth", authRoute);
 app.use("/ideas", ideaRoute);
@@ -196,6 +206,8 @@ app.use(pageRoute);
 //error middleware handling
 app.use(errorMiddleware);
 
-app.listen(4000, () => {
-  console.log("Server is listening on port 4000");
+const port = process.env.PORT || 4000;
+
+app.listen(port, () => {
+  console.log(`Server is listening on port ${port}`);
 });

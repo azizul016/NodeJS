@@ -4,9 +4,9 @@
             <h5 class="card-title">
             <span class="title-position">{{idea.title}}</span>
             {{#if idea.image}}
-                <img src="/ideas/{{idea.image}}" alt="">
+                <img class="imageStyle" src="/ideas/{{idea.image}}" alt="">
             {{else}}
-              <img style="width:1080px; height:300px" src="https://i.ibb.co/vdypSGS/Windows-11-Default-Light-Wallpaper.jpg" alt="">
+              <img style="width:1080px; height:300px" class="imageStyle" src="https://i.ibb.co/vdypSGS/Windows-11-Default-Light-Wallpaper.jpg" alt="">
             {{/if}}
             </h5>
         </div>
@@ -36,6 +36,7 @@
           {{!-- for category array show start --}}
         <div class="my-3">
           <em>Category:</em>
+          
           {{#each idea.categories}}
             <a href="/categories/{{categoryName}}/ideas"><span class="badge bg-primary" style="cursor:pointer">{{categoryName}}</span></a>
           {{/each}}

@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const passport = require("passport");
 
-const rateLimit = require("express-rate-limit");
+// const rateLimit = require("express-rate-limit");
 
 const {
   getRegisterController,
@@ -34,12 +34,12 @@ const {
 //after login you cannot see login and register page;
 const { ensureGuest } = require("../middleware/authMiddleware");
 
-const registerLimiter = rateLimit({
-  windowMs: 60 * 60 * 1000, // 1 hour window
-  max: 5, // start blocking after 5 requests
-  message:
-    "Too many accounts created from this IP, please try again after an hour",
-});
+// req limit middleware require;
+const {
+  registerLimiter,
+  loginLimiter,
+  forgetPasswordLimiter,
+} = require("../middleware/reqLimitMIddleware");
 
 router.get("/register", ensureGuest, getRegisterController);
 
@@ -68,6 +68,7 @@ router.post(
   ensureGuest,
   loginValidators(),
   loginValidate,
+  loginLimiter,
   passport.authenticate("local", {
     failureRedirect: "/auth/login",
     failureFlash: true,
@@ -103,6 +104,7 @@ router.post(
   "/forget-password",
   forgetPasswordValidators(),
   forgetPasswordValidate,
+  forgetPasswordLimiter,
   postForgotPasswordController
 );
 
